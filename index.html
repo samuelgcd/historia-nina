@@ -305,8 +305,8 @@
   .floatxp{position:fixed;z-index:120;font-family:var(--tit);font-weight:800;color:#ffae2b;text-shadow:0 2px 5px rgba(120,60,0,.4),0 0 2px #fff;pointer-events:none;font-size:1.5rem}
 
   /* flash de tela */
-  #flash{position:fixed;inset:0;z-index:115;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.75),transparent 62%);opacity:0}
-  #flash.go{animation:flashgo .6s ease}
+  #flashfx{position:fixed;inset:0;z-index:115;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.75),transparent 62%);opacity:0}
+  #flashfx.go{animation:flashgo .6s ease}
   @keyframes flashgo{0%{opacity:0}28%{opacity:1}100%{opacity:0}}
 
   /* modal de celebração */
@@ -332,6 +332,22 @@
   .fig-stk .nm{font-size:.72rem;font-weight:800;margin-top:6px;color:#b9a06a}
   .fig-stk.have .nm{color:#6b4a1c}
   .fig-stk .lock{position:absolute;top:8px;right:10px;font-size:.8rem;opacity:.5}
+
+  /* ====== IMAGENS PIXAR (mascote, memória, álbum, modal) ====== */
+  .hud .mascote{display:flex;align-items:center}
+  .hud .mascote img{width:38px;height:38px;object-fit:contain;display:block;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+  #guia .dunni img{width:66px;height:66px;object-fit:contain;display:block;filter:drop-shadow(0 6px 8px rgba(120,70,20,.3))}
+  #splash .camelo img{width:clamp(130px,34vw,200px);height:auto;display:block}
+  .modal-img{width:112px;height:112px;object-fit:contain;display:block;margin:0 auto;animation:pulo2 1.2s ease infinite}
+  .stk-img{width:66px;height:66px;object-fit:contain;display:block;margin:0 auto}
+  .fig-stk.locked .stk-img{filter:grayscale(1) opacity(.3)}
+  .mem-grid{grid-template-columns:repeat(3,1fr)}
+  .mem-img{width:clamp(56px,16vw,84px);height:clamp(56px,16vw,84px);object-fit:contain}
+  .mem-b{flex-direction:column;gap:3px;padding:6px}
+  .mem-f{font-size:2rem}
+  .mem-nome{font-size:.85rem;font-weight:800;color:var(--roxo);line-height:1.1}
+  .mem-fato{font-size:.8rem;font-weight:700;color:#6b4a1c;line-height:1.2}
+  @media(max-width:560px){ #guia .dunni img{width:54px;height:54px} .hud .mascote img{width:32px;height:32px} .mem-fato{font-size:.74rem} }
 </style>
 </head>
 <body>
@@ -348,29 +364,29 @@
 </div>
 
 <div id="toast"></div>
-<div id="flash"></div>
+<div id="flashfx"></div>
 <div id="modal"><div class="modal-card" id="modalCard"></div></div>
 
 <!-- SPLASH -->
 <div id="splash">
   <div class="estrelas" id="estrelas"></div>
-  <div class="camelo splash-in d1">🐫</div>
+  <div class="camelo splash-in d1"><img src="historia_img/char_dunni.png" alt="Dunni"></div>
   <h1 class="splash-in d2">A Grande Jornada<br>do Povo Hebreu</h1>
   <p class="tag splash-in d3">Oi, Nina! Vem comigo de Ur até a Terra Prometida. Estude, jogue e ganhe estrelas! ✨</p>
-  <button class="btn btn-start splash-in d4" onclick="fecharSplash()">Começar a jornada 🚀</button>
+  <button class="btn btn-start splash-in d4" onclick="fecharSplash()">Começar a jornada</button>
 </div>
 
 <!-- GUIA DUNNI -->
 <div id="guia">
   <div class="balao" id="balao"></div>
-  <div class="dunni" id="dunni" onclick="dunniOi()">🐫</div>
+  <div class="dunni" id="dunni" onclick="dunniOi()"><img src="historia_img/char_dunni.png" alt="Dunni"></div>
 </div>
 
 <div class="container">
 
   <!-- HUD -->
   <div class="hud">
-    <span class="mascote" id="mascote">🐫</span>
+    <span class="mascote" id="mascote"><img src="historia_img/char_dunni.png" alt="Dunni"></span>
     <span class="nome">Nina exploradora</span>
     <div class="xpwrap">
       <div class="xpbar"><div class="xpfill" id="xpfill"></div></div>
@@ -697,7 +713,7 @@
   <section class="tela" id="memoria">
     <div class="cartao">
       <h2>🧠 Jogo da Memória</h2>
-      <p class="mini-tip">Ache os pares: o emoji combina com a pessoa/coisa certa.</p>
+      <p class="mini-tip">Ache os pares: a pessoa combina com o que ela fez na história!</p>
       <div class="mem-grid" id="memGrid"></div>
       <div class="centro" style="margin-top:14px">
         <span class="fc-conta" id="memMov">Jogadas: 0</span>
@@ -783,7 +799,7 @@ function fazerEstrelas(){ const e=document.getElementById('estrelas'); if(!e)ret
 function addRipple(b,e){ const r=document.createElement('span'); r.className='ripple'; const rect=b.getBoundingClientRect(); const size=Math.max(rect.width,rect.height); r.style.width=r.style.height=size+'px'; const x=(e.clientX||rect.left+rect.width/2)-rect.left-size/2; const y=(e.clientY||rect.top+rect.height/2)-rect.top-size/2; r.style.left=x+'px'; r.style.top=y+'px'; b.appendChild(r); setTimeout(()=>r.remove(),600); }
 document.addEventListener('click',e=>{ const b=e.target.closest('.btn'); if(b)addRipple(b,e); });
 function setupReveal(){
-  const els=document.querySelectorAll('.cartao, .fig, .secao-tit');
+  const els=document.querySelectorAll('.fig, .secao-tit');
   els.forEach(e=>e.classList.add('reveal'));
   const io=new IntersectionObserver(ents=>{ ents.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); },{threshold:.08});
   els.forEach(e=>io.observe(e));
@@ -807,39 +823,40 @@ function toggleSom(){ SOM=!SOM; document.getElementById('sombtn').textContent=SO
 /* ===== +XP flutuante / flash de tela ===== */
 function flutuaXP(n){ const el=document.createElement('div'); el.className='floatxp'; el.textContent='+'+n+' XP'; const x=window._lx||window.innerWidth/2, y=window._ly||(window.innerHeight*0.4); el.style.left=x+'px'; el.style.top=y+'px'; document.body.appendChild(el); el.animate([{transform:'translate(-50%,-50%) scale(.6)',opacity:0},{transform:'translate(-50%,-130%) scale(1.15)',opacity:1,offset:.3},{transform:'translate(-50%,-260%) scale(1)',opacity:0}],{duration:1100,easing:'cubic-bezier(.2,.8,.2,1)'}); setTimeout(()=>el.remove(),1160); }
 document.addEventListener('pointerdown',e=>{ window._lx=e.clientX; window._ly=e.clientY; },true);
-function flashTela(){ const f=document.getElementById('flash'); if(!f)return; f.classList.remove('go'); void f.offsetWidth; f.classList.add('go'); }
+function flashTela(){ const f=document.getElementById('flashfx'); if(!f)return; f.classList.remove('go'); void f.offsetWidth; f.classList.add('go'); }
 
 /* ===== MODAL de celebração ===== */
 function abrirModal(ic,titulo,htmlCorpo){ const m=document.getElementById('modal'),c=document.getElementById('modalCard'); c.innerHTML='<span class="ic">'+ic+'</span><h3>'+titulo+'</h3>'+htmlCorpo+'<button class="btn ouro" onclick="fecharModal()">Continuar ✨</button>'; m.classList.add('show'); }
 function fecharModal(){ document.getElementById('modal').classList.remove('show'); hapt(8); sfx('tap'); }
 
 /* ===== FIGURINHAS ===== */
+const CHARIMG={'char_abraao':'historia_img/char_abraao.png','char_isaque':'historia_img/char_isaque.png','char_jaco':'historia_img/char_jaco.png','char_moises':'historia_img/char_moises.png','char_josue':'historia_img/char_josue.png','char_saul':'historia_img/char_saul.png','char_davi':'historia_img/char_davi.png','char_salomao':'historia_img/char_salomao.png','char_templo':'historia_img/char_templo.png','char_tabuas':'historia_img/char_tabuas.png','char_arca':'historia_img/char_arca.png','char_dunni':'historia_img/char_dunni.png'};
 const STICKERS=[
-  {id:'flash',e:'🎴',n:'Estudiosa'},
-  {id:'quiz',e:'🎯',n:'Mestre do Quiz'},
-  {id:'ligar',e:'🔗',n:'Conecta-Tudo'},
-  {id:'tempo',e:'⏳',n:'Senhor do Tempo'},
-  {id:'completar',e:'✏️',n:'Completa-Frases'},
-  {id:'caca',e:'🔍',n:'Caça-Letras'},
-  {id:'cruz',e:'🧩',n:'Cruza-Palavras'},
-  {id:'memoria',e:'🧠',n:'Memória Top'},
-  {id:'farao',e:'👑',n:'Faraó do Saber'},
-  {id:'escriba',e:'📜',n:'Escriba (Nv 3)'},
-  {id:'conselheiro',e:'🦉',n:'Conselheiro (Nv 5)'},
-  {id:'lenda',e:'🌟',n:'Lenda do Deserto'},
+  {id:'flash',img:'char_abraao',n:'Abraão'},
+  {id:'quiz',img:'char_moises',n:'Moisés'},
+  {id:'ligar',img:'char_davi',n:'Davi'},
+  {id:'tempo',img:'char_salomao',n:'Salomão'},
+  {id:'completar',img:'char_josue',n:'Josué'},
+  {id:'caca',img:'char_saul',n:'Saul'},
+  {id:'cruz',img:'char_isaque',n:'Isaque'},
+  {id:'memoria',img:'char_jaco',n:'Jacó'},
+  {id:'farao',img:'char_arca',n:'Arca da Aliança'},
+  {id:'escriba',img:'char_tabuas',n:'Tábuas da Lei'},
+  {id:'conselheiro',img:'char_templo',n:'Templo'},
+  {id:'lenda',img:'char_dunni',n:'Dunni, o Guia'},
 ];
 let STK=[];
 function ganharSticker(id){
   if(STK.includes(id))return; STK.push(id); salvar(); renderAlbum();
   flashTela(); confete(); sfx('sticker'); hapt([20,30,20]);
   const s=STICKERS.find(x=>x.id===id);
-  abrirModal(s.e,'Nova figurinha! 🎉','<div class="rank-nome">'+s.n+'</div><p>Foi direto pro seu álbum 🎖️</p>');
+  abrirModal('<img class="modal-img" src="'+CHARIMG[s.img]+'">','Nova figurinha! 🎉','<div class="rank-nome">'+s.n+'</div><p>Foi direto pro seu álbum 🎖️</p>');
   const completou=STICKERS.filter(x=>x.id!=='lenda').every(x=>STK.includes(x.id));
   if(completou && !STK.includes('lenda')) setTimeout(()=>ganharSticker('lenda'),1400);
 }
 function renderAlbum(){
   const g=document.getElementById('albumGrid'); if(!g)return; g.innerHTML='';
-  STICKERS.forEach(s=>{ const have=STK.includes(s.id); const d=document.createElement('div'); d.className='fig-stk '+(have?'have':'locked'); d.innerHTML='<span class="emj">'+s.e+'</span><div class="nm">'+(have?s.n:'???')+'</div>'+(have?'':'<span class="lock">🔒</span>'); g.appendChild(d); });
+  STICKERS.forEach(s=>{ const have=STK.includes(s.id); const d=document.createElement('div'); d.className='fig-stk '+(have?'have':'locked'); d.innerHTML='<img class="stk-img" src="'+CHARIMG[s.img]+'" alt="'+s.n+'"><div class="nm">'+(have?s.n:'???')+'</div>'+(have?'':'<span class="lock">🔒</span>'); g.appendChild(d); });
   const p=document.getElementById('albumProg'); if(p)p.textContent=STK.length+' / '+STICKERS.length+' figurinhas';
 }
 function festa(id){ confete(); sfx('win'); flashTela(); if(id)ganharSticker(id); }
@@ -950,8 +967,12 @@ const CRUZ=[
   {palavra:"SAUL", dica:"Primeiro rei de Israel", dir:"V", r:6, c:1},
 ];
 const MEMORIA=[
-  ["🐫","Abraão"],["🌊","Moisés"],["🪨","Davi"],["🦉","Salomão"],
-  ["🏛️","Templo"],["📜","Tábuas da Lei"],["👑","Saul"],["🗺️","Canaã"],
+  ["char_abraao","Abraão","Saiu de Ur rumo a Canaã"],
+  ["char_moises","Moisés","Libertou o povo do Egito"],
+  ["char_davi","Davi","Venceu o gigante Golias"],
+  ["char_salomao","Salomão","Pediu sabedoria a Deus"],
+  ["char_templo","Templo","Casa de Deus em Jerusalém"],
+  ["char_tabuas","Tábuas da Lei","Os Dez Mandamentos"],
 ];
 const FARAO=[
   ["Coloque em ordem: Moisés, Josué, Juízes. Quem vem logo depois dos Juízes?",["Abraão","Os reis (como Saul)","Os faraós","Os romanos"],1],
@@ -1137,9 +1158,9 @@ function conferirCruz(){
 let memViradas=[], memTrava=false, memMov=0, memPares=0;
 function montarMemoria(){
   memViradas=[]; memTrava=false; memMov=0; memPares=0; document.getElementById('memMov').textContent='Jogadas: 0';
-  const cartas=[]; MEMORIA.forEach((m,i)=>{ cartas.push({id:i,face:m[0]}); cartas.push({id:i,face:m[1]}); }); embaralhar(cartas);
+  const cartas=[]; MEMORIA.forEach((m,i)=>{ cartas.push({id:i,html:'<img class="mem-img" src="'+CHARIMG[m[0]]+'"><span class="mem-nome">'+m[1]+'</span>'}); cartas.push({id:i,html:'<span class="mem-fato">'+m[2]+'</span>'}); }); embaralhar(cartas);
   const g=document.getElementById('memGrid'); g.innerHTML='';
-  cartas.forEach(ct=>{ const d=document.createElement('div'); d.className='mem-card'; d.dataset.id=ct.id; d.innerHTML='<div class="mem-inner"><div class="mem-f">?</div><div class="mem-b">'+ct.face+'</div></div>'; d.onclick=()=>viraMem(d); g.appendChild(d); });
+  cartas.forEach(ct=>{ const d=document.createElement('div'); d.className='mem-card'; d.dataset.id=ct.id; d.innerHTML='<div class="mem-inner"><div class="mem-f">?</div><div class="mem-b">'+ct.html+'</div></div>'; d.onclick=()=>viraMem(d); g.appendChild(d); });
 }
 function viraMem(d){
   if(memTrava||d.classList.contains('flip')||d.classList.contains('match'))return;
