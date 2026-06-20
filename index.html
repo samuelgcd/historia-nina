@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐫 A Grande Jornada do Povo Hebreu — Estudos da Nina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --areia:#f6e4c0; --areia2:#ecd29a; --duna:#e0ac5c; --duna-esc:#b97f37;
+    --ceu:#73c7e0; --ceu2:#2f9ec4; --por-do-sol:#ff8a4c; --rosa:#ff5d8f; --rosa2:#ff8fb0;
+    --roxo:#5b3a8a; --roxo2:#8b5fc9; --turquesa:#13b39c; --turq2:#0e8f7e; --ouro:#f6b62b;
+    --verde:#41b06a; --vermelho:#e8554e; --noite:#241a47;
+    --txt:#3a2a12; --branco:#fffdf6;
+    --sombra:0 10px 28px rgba(90,55,15,.22);
+    --sombra-sm:0 4px 12px rgba(90,55,15,.16);
+    --raio:24px;
+    --tit:"Poppins","Segoe UI",system-ui,sans-serif;
+    --corpo:"Inter","Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:var(--corpo); color:var(--txt); font-weight:700;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(255,255,255,.5) 0 2px, transparent 3px) 0 0/46px 46px,
+      radial-gradient(circle at 85% 60%, #ffe6b8 0%, transparent 40%),
+      radial-gradient(circle at 50% -10%, #ffeccb 0%, transparent 50%),
+      linear-gradient(180deg,#ffd79a 0%, #f6e4c0 28%, #ecd29a 62%, #e0ac5c 100%);
+    background-attachment:fixed; min-height:100vh; overflow-x:hidden;
+  }
+  /* sol + palmeiras + dunas decorativas */
+  .cenario{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .cenario .sol2{position:absolute;top:-40px;right:-30px;width:180px;height:180px;border-radius:50%;
+    background:radial-gradient(circle,#ffe27a 0%,#ffce4d 55%,rgba(255,206,77,0) 72%);opacity:.6;animation:pulsa 6s ease-in-out infinite}
+  @keyframes pulsa{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .dunas{position:fixed;bottom:0;left:0;width:100%;height:120px;z-index:0;pointer-events:none}
+  .dunas svg{width:100%;height:100%}
+
+  .container{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:10px 14px 110px}
+
+  /* ---------- HUD ---------- */
+  .hud{
+    position:sticky;top:8px;z-index:30;display:flex;gap:10px;align-items:center;
+    background:linear-gradient(120deg,var(--roxo),var(--roxo2) 70%,var(--rosa));
+    color:#fff;border-radius:22px;padding:11px 16px;box-shadow:var(--sombra);
+    margin-bottom:14px;flex-wrap:wrap;border:3px solid rgba(255,255,255,.6)
+  }
+  .hud .mascote{font-size:2rem;animation:flutua 3s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
+  @keyframes flutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .hud .nome{font-family:var(--tit);font-size:1.05rem}
+  .xpwrap{flex:1;min-width:130px}
+  .xpbar{height:15px;background:rgba(255,255,255,.28);border-radius:10px;overflow:hidden;border:2px solid rgba(255,255,255,.4)}
+  .xpfill{height:100%;width:0;background:linear-gradient(90deg,var(--ouro),#ffe07a);transition:width .6s cubic-bezier(.2,1,.3,1)}
+  .xptxt{font-size:.74rem;opacity:.95;margin-top:2px}
+  .streak{background:linear-gradient(120deg,var(--por-do-sol),var(--rosa));border-radius:16px;padding:5px 11px;font-family:var(--tit);font-size:.9rem;white-space:nowrap;box-shadow:var(--sombra-sm)}
+  .nivel{background:linear-gradient(120deg,var(--ouro),#ffce5a);color:#5a3a00;border-radius:16px;padding:5px 11px;font-family:var(--tit);font-size:.9rem;box-shadow:var(--sombra-sm)}
+
+  /* ---------- HERO / capa ---------- */
+  .hero{position:relative;border-radius:28px;overflow:hidden;box-shadow:var(--sombra);border:5px solid #fff;margin:4px 0 6px}
+  .hero img{width:100%;height:clamp(80px,18vw,150px);object-fit:cover;display:block;filter:saturate(1.08) contrast(1.03)}
+  .hero .veu{position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,26,71,.2) 0%,rgba(91,58,138,.3) 45%,rgba(36,26,71,.8) 100%)}
+  .hero .htxt{position:absolute;left:0;right:0;bottom:0;padding:8px 14px;color:#fff;text-align:center}
+  .hero h1{font-family:var(--tit);font-weight:700;font-size:clamp(.92rem,3.5vw,1.7rem);margin:0;line-height:1.1;text-shadow:0 3px 14px rgba(0,0,0,.5);overflow-wrap:anywhere}
+  .hero .sub{font-size:clamp(.7rem,2.2vw,.95rem);margin-top:3px;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+  .selo{display:inline-block;background:linear-gradient(120deg,var(--turquesa),var(--turq2));color:#fff;border-radius:30px;padding:6px 16px;font-family:var(--tit);margin-top:8px;box-shadow:var(--sombra-sm)}
+  .sol{display:inline-block;animation:gira 20s linear infinite}
+  @keyframes gira{to{transform:rotate(360deg)}}
+
+  /* ---------- NAV ---------- */
+  nav.abas{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:10px 2px;margin:12px 0}
+  nav.abas button{
+    flex:0 0 auto;border:none;cursor:pointer;font-family:var(--tit);font-weight:600;
+    background:#fffaf0;color:var(--roxo);font-size:.95rem;padding:11px 16px;border-radius:18px;
+    box-shadow:var(--sombra-sm);border:3px solid transparent;transition:.2s;display:flex;gap:6px;align-items:center
+  }
+  nav.abas button:hover{transform:translateY(-3px)}
+  nav.abas button.on{background:linear-gradient(120deg,var(--rosa),var(--por-do-sol));color:#fff;border-color:#fff;box-shadow:var(--sombra)}
+
+  section.tela{display:none;animation:entra .45s ease}
+  section.tela.on{display:block}
+  @keyframes entra{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+  /* ---------- CARTÃO ---------- */
+  .cartao{
+    background:var(--branco);border-radius:var(--raio);padding:20px;margin:0 0 18px;
+    box-shadow:var(--sombra);border:1px solid #fff;position:relative;overflow:hidden
+  }
+  .cartao::before{content:"";position:absolute;top:0;left:0;right:0;height:7px;background:linear-gradient(90deg,var(--rosa),var(--por-do-sol),var(--ouro),var(--turquesa),var(--roxo2))}
+  .cartao h2{font-family:var(--tit);font-weight:700;color:var(--roxo);margin:6px 0 4px;font-size:1.4rem;line-height:1.15;overflow-wrap:anywhere}
+  .cartao p,.cartao li{line-height:1.55;font-size:1rem;font-weight:500}
+  .cartao p{margin:.4em 0}
+  .cartao ul{margin:.4em 0;padding-left:22px}
+  .cartao li{margin:.15em 0}
+  .destaque{background:linear-gradient(120deg,#fff0b8,#ffe07a);border-radius:8px;padding:1px 5px;box-shadow:inset 0 -6px 0 rgba(246,182,43,.25)}
+
+  .secao-tit{display:flex;align-items:center;gap:11px;margin:18px 0 4px}
+  .secao-tit .ico{font-size:1.4rem;background:linear-gradient(135deg,var(--por-do-sol),var(--rosa));width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;box-shadow:var(--sombra-sm);flex:0 0 auto}
+  .secao-tit h3{font-family:var(--tit);font-weight:600;margin:0;color:var(--roxo);font-size:1.22rem;line-height:1.15}
+
+  .dica-cerebro{background:linear-gradient(120deg,#e6f6ff,#d2ecff);border-left:6px solid var(--ceu2);border-radius:14px;padding:11px 15px;margin:14px 0;font-size:.93rem}
+  .dica-cerebro b{color:var(--ceu2)}
+
+  /* ---------- FIGURAS ---------- */
+  .fig{margin:12px 0;border-radius:16px;overflow:hidden;box-shadow:var(--sombra-sm);background:#fff;border:4px solid #fff;position:relative}
+  .fig img{width:100%;display:block;transition:transform .5s}
+  .fig:hover img{transform:scale(1.04)}
+  .fig figcaption{font-size:.82rem;padding:9px 13px;background:linear-gradient(120deg,#fff0b8,#ffe8b0);color:#6b4a1c;text-align:center;line-height:1.4}
+  .fig .moldura-tag{position:absolute;top:10px;left:10px;background:var(--roxo);color:#fff;font-size:.7rem;font-family:var(--tit);padding:4px 11px;border-radius:20px;box-shadow:var(--sombra-sm)}
+  .fig-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  .fig-row .fig{margin:0}
+  .fig.lado{float:right;width:44%;margin:6px 0 14px 18px}
+  .fig.lado-esq{float:left;width:44%;margin:6px 18px 14px 0}
+  .limpa{clear:both}
+
+  /* ---------- BOTÕES ---------- */
+  .btn{border:none;cursor:pointer;font-family:var(--tit);font-weight:600;background:linear-gradient(120deg,var(--turquesa),var(--turq2));color:#fff;padding:13px 22px;border-radius:18px;font-size:1.02rem;box-shadow:var(--sombra-sm);transition:.15s}
+  .btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:var(--sombra)}
+  .btn:active{transform:scale(.96)}
+  .btn.sec{background:linear-gradient(120deg,var(--roxo),var(--roxo2))}
+  .btn.ouro{background:linear-gradient(120deg,var(--ouro),#ffce5a);color:#5a3a00}
+  .centro{text-align:center}
+  .mini-tip{font-size:.85rem;color:#8a6a30;text-align:center;margin:4px 0 12px}
+
+  /* ---------- FLASHCARDS ---------- */
+  .fc-stage{perspective:1200px;max-width:470px;margin:0 auto}
+  .flashcard{position:relative;width:100%;height:290px;cursor:pointer;transform-style:preserve-3d;transition:transform .6s}
+  .flashcard.virado{transform:rotateY(180deg)}
+  .fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--raio);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;box-shadow:var(--sombra);border:4px solid #fff}
+  .fc-frente{background:linear-gradient(140deg,var(--por-do-sol),var(--rosa))}
+  .fc-verso{background:linear-gradient(140deg,var(--roxo),var(--ceu2));transform:rotateY(180deg)}
+  .fc-face,.fc-face *{color:#fff}
+  .fc-frente .pergunta{font-family:var(--tit);font-size:1.35rem}
+  .fc-verso .resposta{font-size:1.12rem;line-height:1.5}
+  .fc-tag{position:absolute;top:12px;left:14px;font-size:.74rem;background:rgba(0,0,0,.2);padding:4px 11px;border-radius:20px}
+  .fc-hint{position:absolute;bottom:12px;font-size:.78rem;opacity:.9}
+  .fc-ctrl{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:18px;flex-wrap:wrap}
+  .fc-conta{font-family:var(--tit);color:var(--roxo);min-width:70px;text-align:center}
+  .fc-saber{display:flex;gap:10px;justify-content:center;margin-top:12px}
+
+  /* ---------- QUIZ ---------- */
+  .q-card{font-family:var(--tit);font-size:1.2rem;color:var(--roxo);margin-bottom:14px;min-height:58px}
+  .q-opts{display:grid;gap:10px}
+  .q-opt{text-align:left;background:#fff8ec;border:3px solid #f1dcae;border-radius:16px;padding:14px 16px;cursor:pointer;font-family:var(--corpo);font-weight:700;font-size:1rem;transition:.15s;color:var(--txt)}
+  .q-opt:hover{border-color:var(--turquesa);transform:translateX(5px)}
+  .q-opt.certo{background:linear-gradient(120deg,#bff0c8,#7fe39a);border-color:var(--verde);color:#155724}
+  .q-opt.errado{background:linear-gradient(120deg,#ffc9c5,#ff9b94);border-color:var(--vermelho);color:#7a1a14}
+  .q-feedback{margin-top:14px;padding:13px 15px;border-radius:14px;display:none;font-weight:800}
+  .q-feedback.show{display:block;animation:pop .3s}
+  .q-feedback.bom{background:#d6f5dd;color:#176c2e}
+  .q-feedback.ruim{background:#ffe0dd;color:#a3251c}
+  @keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+  .barra-prog{height:11px;background:#f1dcae;border-radius:8px;overflow:hidden;margin-bottom:14px}
+  .barra-prog>div{height:100%;background:linear-gradient(90deg,var(--turquesa),var(--ceu2));width:0;transition:width .4s}
+
+  /* ---------- LIGAR ---------- */
+  .ligar-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .ligar-col{display:flex;flex-direction:column;gap:10px}
+  .lg-item{background:#fff8ec;border:3px solid #f1dcae;border-radius:16px;padding:13px;cursor:pointer;font-weight:800;transition:.15s;font-size:.95rem}
+  .lg-item:hover{transform:scale(1.03)}
+  .lg-item.sel{border-color:var(--roxo);background:#efe3ff}
+  .lg-item.ok{background:linear-gradient(120deg,#bff0c8,#7fe39a);border-color:var(--verde);cursor:default}
+  .lg-item.err{animation:treme .4s}
+  @keyframes treme{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+  /* ---------- LINHA DO TEMPO (numerar) ---------- */
+  .lt-lista{display:flex;flex-direction:column;gap:10px}
+  .lt-item{background:#fff8ec;border:3px solid #f1dcae;border-radius:16px;padding:12px 14px;display:flex;gap:12px;align-items:center;font-weight:800;font-size:.97rem}
+  .lt-inp{width:54px;height:54px;flex:0 0 auto;text-align:center;font-family:var(--tit);font-size:1.5rem;border:3px solid var(--duna);border-radius:14px;background:#fff;color:var(--roxo)}
+  .lt-inp:focus{outline:none;border-color:var(--turquesa);box-shadow:0 0 0 4px rgba(19,179,156,.2)}
+  .lt-item.ok{background:linear-gradient(120deg,#cdf3d5,#a5ecb8)}
+  .lt-item.ok .lt-inp{border-color:var(--verde);background:#e7fbec}
+  .lt-item.no .lt-inp{border-color:var(--vermelho);background:#ffeceb}
+  .lt-emoji{font-size:1.5rem}
+
+  /* ---------- COMPLETAR ---------- */
+  .comp-frase{font-size:1.08rem;line-height:2.1;margin-bottom:8px}
+  .comp-frase input{border:none;border-bottom:3px dashed var(--duna-esc);background:#fff8ec;font-family:var(--tit);font-size:1rem;text-align:center;width:140px;padding:5px;border-radius:8px;color:var(--roxo)}
+  .comp-frase input.ok{background:#bff0c8;border-color:var(--verde)}
+  .comp-frase input.no{background:#ffc9c5;border-color:var(--vermelho)}
+  .banco{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+  .banco span{background:linear-gradient(120deg,var(--ceu2),var(--turquesa));color:#fff;padding:6px 14px;border-radius:20px;font-family:var(--tit);font-size:.92rem;box-shadow:var(--sombra-sm)}
+
+  /* ---------- CAÇA-PALAVRAS ---------- */
+  .caca-scroll{width:100%;overflow-x:auto;display:flex;justify-content:center;padding:4px 0}
+  #cacaGrid{display:grid;gap:3px;touch-action:none;user-select:none;margin:0 auto}
+  .cp-cel{width:clamp(24px,7.6vw,34px);height:clamp(24px,7.6vw,34px);display:flex;align-items:center;justify-content:center;background:#fff8ec;border-radius:7px;font-family:var(--tit);font-size:clamp(.8rem,3vw,1rem);cursor:pointer;color:var(--txt);box-shadow:var(--sombra-sm)}
+  .cp-cel.sel{background:var(--ouro);color:#fff}
+  .cp-cel.found{background:linear-gradient(135deg,var(--turquesa),var(--turq2));color:#fff}
+  .cp-lista{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+  .cp-lista span{background:#fff8ec;border:2px solid var(--duna);padding:5px 12px;border-radius:16px;font-family:var(--tit);font-size:.86rem}
+  .cp-lista span.done{background:var(--verde);color:#fff;text-decoration:line-through;border-color:var(--verde)}
+
+  /* ---------- CRUZADINHA ---------- */
+  .cruz-scroll{width:100%;overflow-x:auto;display:flex;justify-content:center}
+  #cruzGrid{display:grid;gap:2px;margin:10px auto;background:var(--duna);padding:5px;border-radius:10px}
+  .cz-cel{width:clamp(26px,8vw,34px);height:clamp(26px,8vw,34px);position:relative;background:#3a2a12;border-radius:3px}
+  .cz-cel.ativa{background:#fff8ec}
+  .cz-cel input{width:100%;height:100%;border:none;background:transparent;text-align:center;font-family:var(--tit);font-size:clamp(.85rem,3vw,1.05rem);text-transform:uppercase;color:var(--roxo);padding:0}
+  .cz-cel input:focus{outline:2px solid var(--turquesa);border-radius:3px}
+  .cz-cel input.ok{background:#bff0c8}
+  .cz-cel .cz-num{position:absolute;top:0;left:2px;font-size:.5rem;color:var(--duna-esc);font-weight:800}
+  .cz-dicas{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .cz-dicas ol{padding-left:20px;margin:4px 0}
+  .cz-dicas li{font-size:.86rem;margin-bottom:5px}
+  .cz-dicas h4{margin:0;color:var(--roxo);font-family:var(--tit)}
+
+  /* ---------- MEMÓRIA ---------- */
+  .mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;max-width:460px;margin:0 auto}
+  .mem-card{aspect-ratio:3/4;perspective:600px;cursor:pointer}
+  .mem-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .4s}
+  .mem-card.flip .mem-inner,.mem-card.match .mem-inner{transform:rotateY(180deg)}
+  .mem-f,.mem-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;font-family:var(--tit);font-size:.74rem}
+  .mem-f{background:linear-gradient(140deg,var(--roxo),var(--ceu2));color:#fff;font-size:1.5rem;border:3px solid #fff}
+  .mem-b{background:#fff8ec;color:var(--txt);transform:rotateY(180deg);border:3px solid var(--duna)}
+  .mem-card.match .mem-b{background:linear-gradient(120deg,#bff0c8,#7fe39a);border-color:var(--verde)}
+
+  /* ---------- MAPAS ---------- */
+  .mapa-real{width:100%;display:block;border-radius:16px;box-shadow:var(--sombra);border:5px solid #fff;background:#fff}
+  .legenda{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:12px;font-size:.86rem}
+  .legenda span{display:flex;align-items:center;gap:7px}
+  .legenda i{width:20px;height:8px;border-radius:5px;display:inline-block}
+
+  /* ---------- toast / confete / resultado ---------- */
+  #toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);z-index:100;background:var(--noite);color:#fff;padding:14px 22px;border-radius:18px;font-family:var(--tit);box-shadow:var(--sombra);opacity:0;pointer-events:none;transition:.3s;text-align:center;max-width:90%}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(6px)}
+  .confete{position:fixed;top:-12px;width:12px;height:12px;z-index:99;pointer-events:none;border-radius:2px}
+  .resultado{text-align:center;padding:22px}
+  .resultado .big{font-size:3.6rem}
+  .resultado h3{font-family:var(--tit);font-size:1.6rem;color:var(--roxo)}
+
+  @media(max-width:560px){
+    .fig-row{grid-template-columns:1fr}
+    .fig.lado,.fig.lado-esq{float:none;width:100%;margin:14px 0}
+    .cz-dicas{grid-template-columns:1fr}
+    .ligar-wrap{gap:7px}
+    .cartao{padding:16px}
+    .hero .sub,.hero .selo{display:none}
+    .hero .htxt{padding:6px 12px}
+    nav.abas{gap:6px}
+    nav.abas button{font-size:.8rem;padding:9px 11px;border-radius:14px}
+    .fig img{max-height:260px;object-fit:cover}
+    .fig.lado img,.fig.lado-esq img{max-height:200px}
+  }
+
+  /* ====== UX PREMIUM (Disney + Apple) ====== */
+  /* HUD vidro */
+  .hud{background:linear-gradient(120deg,rgba(91,58,138,.93),rgba(139,95,201,.9) 65%,rgba(255,93,143,.86));backdrop-filter:blur(12px) saturate(1.3);-webkit-backdrop-filter:blur(12px) saturate(1.3)}
+  nav.abas{backdrop-filter:blur(6px)}
+
+  /* movimento de revelação (fade-up suave) */
+  .reveal{opacity:0;transform:translateY(24px) scale(.985);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* transição de aba com mola */
+  section.tela.on{animation:springin .55s cubic-bezier(.2,.9,.25,1.05)}
+  @keyframes springin{0%{opacity:0;transform:translateY(22px) scale(.98)}60%{opacity:1}100%{opacity:1;transform:none}}
+
+  /* botões: ripple + brilho */
+  .btn{position:relative;overflow:hidden;isolation:isolate}
+  .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:rip .6s ease-out;pointer-events:none;z-index:-1}
+  @keyframes rip{to{transform:scale(4);opacity:0}}
+
+  /* SPLASH de boas-vindas */
+  #splash{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;
+    background:radial-gradient(circle at 50% 28%, #ffe9bd 0%, #efc079 52%, #d39a4e 100%);transition:opacity .7s ease,visibility .7s}
+  #splash.hide{opacity:0;visibility:hidden}
+  #splash .estrelas{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.7}
+  #splash .estrelas span{position:absolute;color:#fff;animation:cintila 2.6s ease-in-out infinite}
+  @keyframes cintila{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+  #splash .camelo{font-size:clamp(3.6rem,16vw,6rem);animation:flutua 3s ease-in-out infinite;filter:drop-shadow(0 12px 16px rgba(120,70,20,.35));z-index:2}
+  #splash h1{font-family:var(--tit);font-weight:800;font-size:clamp(1.7rem,7vw,3rem);color:#5b3a8a;margin:.15em 0 .1em;text-shadow:0 2px 0 #fff;z-index:2;line-height:1.05}
+  #splash .tag{color:#7a531f;font-size:clamp(.95rem,3.4vw,1.15rem);max-width:430px;margin:6px auto 18px;z-index:2}
+  #splash .btn-start{font-size:1.15rem;padding:15px 30px;z-index:2;animation:respira 2.2s ease-in-out infinite}
+  @keyframes respira{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .splash-in{animation:subirfade .8s cubic-bezier(.2,.8,.2,1) both}
+  .d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.6s}
+  @keyframes subirfade{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+  /* GUIA Dunni (camelo que fala e reage) */
+  #guia{position:fixed;right:12px;bottom:12px;z-index:45;display:flex;align-items:flex-end;gap:8px;pointer-events:none}
+  #guia .balao{max-width:210px;background:#fff;border:3px solid var(--roxo2);border-radius:18px;border-bottom-right-radius:4px;padding:9px 13px;font-size:.86rem;font-weight:700;color:var(--txt);box-shadow:var(--sombra);opacity:0;transform:translateY(10px) scale(.88);transform-origin:bottom right;transition:.3s cubic-bezier(.2,.9,.25,1.1)}
+  #guia .balao.show{opacity:1;transform:none}
+  #guia .dunni{font-size:2.7rem;filter:drop-shadow(0 7px 9px rgba(120,70,20,.35));transition:transform .3s;cursor:pointer;pointer-events:auto}
+  #guia.feliz .dunni{animation:pulo .6s}
+  #guia.triste .dunni{animation:nego .5s}
+  @keyframes pulo{0%,100%{transform:translateY(0)}40%{transform:translateY(-20px) scale(1.16) rotate(-6deg)}}
+  @keyframes nego{0%,100%{transform:rotate(0)}25%{transform:rotate(-13deg)}75%{transform:rotate(13deg)}}
+  @media(max-width:560px){ #guia .dunni{font-size:2.2rem} #guia .balao{max-width:150px;font-size:.78rem} }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{transition:none;opacity:1;transform:none}
+    section.tela.on{animation:none}
+    #splash .camelo,#splash .btn-start,.hud .mascote{animation:none}
+  }
+
+  /* ====== DELIGHT v2 ====== */
+  /* botão de som no HUD */
+  .sombtn{background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.45);color:#fff;width:40px;height:34px;border-radius:14px;cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center;transition:.15s}
+  .sombtn:active{transform:scale(.9)}
+
+  /* +XP flutuante */
+  .floatxp{position:fixed;z-index:120;font-family:var(--tit);font-weight:800;color:#ffae2b;text-shadow:0 2px 5px rgba(120,60,0,.4),0 0 2px #fff;pointer-events:none;font-size:1.5rem}
+
+  /* flash de tela */
+  #flash{position:fixed;inset:0;z-index:115;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.75),transparent 62%);opacity:0}
+  #flash.go{animation:flashgo .6s ease}
+  @keyframes flashgo{0%{opacity:0}28%{opacity:1}100%{opacity:0}}
+
+  /* modal de celebração */
+  #modal{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(36,26,71,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  #modal.show{display:flex;animation:fadein .3s}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .modal-card{background:var(--branco);border-radius:26px;max-width:360px;width:100%;text-align:center;padding:30px 22px 24px;box-shadow:var(--sombra);animation:popin .55s cubic-bezier(.2,.9,.25,1.12);border:4px solid #fff;position:relative;overflow:hidden}
+  .modal-card::before{content:"";position:absolute;top:0;left:0;right:0;height:8px;background:linear-gradient(90deg,var(--rosa),var(--por-do-sol),var(--ouro),var(--turquesa),var(--roxo2))}
+  @keyframes popin{0%{transform:scale(.7) translateY(20px);opacity:0}100%{transform:none;opacity:1}}
+  .modal-card .ic{font-size:4.2rem;display:block;animation:pulo2 1s ease infinite;filter:drop-shadow(0 8px 10px rgba(120,70,20,.3))}
+  @keyframes pulo2{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .modal-card h3{font-family:var(--tit);color:var(--roxo);margin:.25em 0 .1em;font-size:1.4rem}
+  .modal-card .rank-nome{font-family:var(--tit);font-size:1.7rem;color:var(--por-do-sol);margin:.1em 0 .2em}
+  .modal-card p{color:#6b4a1c;margin:.3em 0 1em}
+
+  /* álbum de figurinhas */
+  .album-prog{text-align:center;font-family:var(--tit);color:var(--roxo);font-size:1.25rem;margin:0 0 12px;background:linear-gradient(120deg,#fff3c4,#ffe2a0);border-radius:16px;padding:10px}
+  .album-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .fig-stk{background:#fff8ec;border:3px solid #f1dcae;border-radius:18px;padding:14px 8px;text-align:center;transition:.3s;position:relative}
+  .fig-stk.have{background:linear-gradient(140deg,#fff3c4,#ffe2a0);border-color:var(--ouro);box-shadow:var(--sombra-sm)}
+  .fig-stk .emj{font-size:2.5rem;display:block;line-height:1;filter:grayscale(1) opacity(.32)}
+  .fig-stk.have .emj{filter:none}
+  .fig-stk .nm{font-size:.72rem;font-weight:800;margin-top:6px;color:#b9a06a}
+  .fig-stk.have .nm{color:#6b4a1c}
+  .fig-stk .lock{position:absolute;top:8px;right:10px;font-size:.8rem;opacity:.5}
+</style>
+</head>
+<body>
+
+<div class="cenario"></div>
+<div class="dunas">
+  <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
+    <path d="M0,90 C240,30 480,150 720,90 C960,30 1200,150 1440,80 L1440,180 L0,180 Z" fill="#e0ac5c"/>
+    <path d="M0,130 C300,80 600,170 900,120 C1140,85 1320,160 1440,130 L1440,180 L0,180 Z" fill="#b97f37"/>
+    <text x="120" y="150" font-size="34">🌴</text>
+    <text x="1180" y="155" font-size="30">🐫</text>
+    <text x="640" y="160" font-size="24">🏺</text>
+  </svg>
+</div>
+
+<div id="toast"></div>
+<div id="flash"></div>
+<div id="modal"><div class="modal-card" id="modalCard"></div></div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="estrelas" id="estrelas"></div>
+  <div class="camelo splash-in d1">🐫</div>
+  <h1 class="splash-in d2">A Grande Jornada<br>do Povo Hebreu</h1>
+  <p class="tag splash-in d3">Oi, Nina! Vem comigo de Ur até a Terra Prometida. Estude, jogue e ganhe estrelas! ✨</p>
+  <button class="btn btn-start splash-in d4" onclick="fecharSplash()">Começar a jornada 🚀</button>
+</div>
+
+<!-- GUIA DUNNI -->
+<div id="guia">
+  <div class="balao" id="balao"></div>
+  <div class="dunni" id="dunni" onclick="dunniOi()">🐫</div>
+</div>
+
+<div class="container">
+
+  <!-- HUD -->
+  <div class="hud">
+    <span class="mascote" id="mascote">🐫</span>
+    <span class="nome">Nina exploradora</span>
+    <div class="xpwrap">
+      <div class="xpbar"><div class="xpfill" id="xpfill"></div></div>
+      <div class="xptxt" id="xptxt">0 / 100 XP</div>
+    </div>
+    <button class="sombtn" id="sombtn" onclick="toggleSom()" title="Som">🔊</button>
+    <span class="nivel" id="nivel">Nível 1</span>
+    <span class="streak" id="streak">🔥 0</span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="historia_img/torre_davi.jpg" alt="Cidade antiga de Jerusalém">
+    <div class="veu"></div>
+    <div class="htxt">
+      <h1>A Grande Jornada do Povo Hebreu</h1>
+      <div class="sub">De Ur até a Terra Prometida — estude, jogue e vire mestre do deserto! 🏜️</div>
+      <span class="selo">Capítulo 3 · História · 5º ano</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="abas" id="nav">
+    <button data-tela="aprender" class="on">📖 Estudar</button>
+    <button data-tela="mapas">🗺️ Mapas</button>
+    <button data-tela="flash">🎴 Flashcards</button>
+    <button data-tela="quiz">❓ Quiz</button>
+    <button data-tela="ligar">🔗 Ligar</button>
+    <button data-tela="tempo">⏳ Linha do Tempo</button>
+    <button data-tela="completar">✏️ Completar</button>
+    <button data-tela="caca">🔍 Caça-Palavras</button>
+    <button data-tela="cruz">🧩 Cruzadinha</button>
+    <button data-tela="memoria">🧠 Memória</button>
+    <button data-tela="faraó">👑 Desafio Faraó</button>
+    <button data-tela="album">🎖️ Figurinhas</button>
+  </nav>
+
+  <!-- ====================== ESTUDAR ====================== -->
+  <section class="tela on" id="aprender">
+    <div class="cartao">
+      <h2>📖 A história do povo hebreu</h2>
+      <div class="dica-cerebro"><b>🧠 Dica do cérebro:</b> leia em pedacinhos e, depois de cada bloco, olhe a imagem e tente contar com suas palavras. Lembrar sozinha (sem olhar o texto) gruda muito mais que reler!</div>
+
+      <div class="secao-tit"><span class="ico">🔎</span><h3>Como conhecemos essa história?</h3></div>
+      <figure class="fig lado">
+        <span class="moldura-tag">📷 Foto real</span>
+        <img src="historia_img/torre_davi.jpg" alt="Torre de Davi, Jerusalém">
+        <figcaption>Ruínas da cidade antiga de Jerusalém — a Torre de Davi.</figcaption>
+      </figure>
+      <p>Os <span class="destaque">arqueólogos</span> procuram <span class="destaque">evidências</span> (marcas, sinais ou vestígios) em escavações: construções, objetos e ferramentas enterrados. Assim conhecemos a história do povo hebreu desde cerca de <span class="destaque">2.000 a.C.</span>. Outra fonte muito importante é a <span class="destaque">Bíblia</span> (que os cristãos chamam de Antigo Testamento).</p>
+      <div class="limpa"></div>
+
+      <div class="secao-tit"><span class="ico">🐫</span><h3>A origem: Abraão sai de Ur</h3></div>
+      <p>Tudo começou com <span class="destaque">Abraão</span>, que morava em <span class="destaque">Ur</span>, na Mesopotâmia. Deus mandou ele sair de sua terra e ir para uma terra nova (<span class="destaque">Canaã</span>), prometendo fazer dele um grande povo. Abraão obedeceu e percorreu quase 2 mil km até Canaã, onde viveu junto dos cananeus.</p>
+      <figure class="fig">
+        <span class="moldura-tag">📷 Foto real</span>
+        <img src="historia_img/ur.jpg" alt="Zigurate de Ur">
+        <figcaption>O Zigurate de Ur, na antiga Mesopotâmia — região de onde Abraão partiu.</figcaption>
+      </figure>
+
+      <div class="secao-tit"><span class="ico">👨‍👩‍👧‍👦</span><h3>A família que virou um povo</h3></div>
+      <ul>
+        <li><b>Abraão + Sara</b> → tiveram <b>Isaque</b>.</li>
+        <li><b>Isaque + Rebeca</b> → gêmeos <b>Esaú e Jacó</b>.</li>
+        <li><b>Jacó</b> teve <b>12 filhos</b> e ganhou o novo nome <span class="destaque">Israel</span>. Seus filhos formaram as <span class="destaque">12 tribos de Israel</span>.</li>
+      </ul>
+
+      <div class="secao-tit"><span class="ico">⛓️</span><h3>Egito, escravidão e a fuga no deserto</h3></div>
+      <figure class="fig lado-esq">
+        <span class="moldura-tag">🖼️ Rembrandt</span>
+        <img src="historia_img/moises.jpg" alt="Moisés com as Tábuas da Lei">
+        <figcaption>Moisés segurando as Tábuas da Lei (pintura de Rembrandt).</figcaption>
+      </figure>
+      <p>Por causa de uma grande <span class="destaque">fome</span>, a família foi para o <span class="destaque">Egito</span>. Lá ficaram <span class="destaque">430 anos escravizados</span>. Depois, <span class="destaque">Moisés</span> libertou o povo, que caminhou <span class="destaque">40 anos no deserto</span> até chegar de volta a Canaã, a Terra Prometida. No caminho, Moisés recebeu de Deus as <span class="destaque">Tábuas da Lei</span> (os Dez Mandamentos).</p>
+      <div class="limpa"></div>
+      <div class="dica-cerebro"><b>🧠 Truque de memória:</b> a ordem dos líderes é <b>Abraão → Isaque → Jacó → (Egito) → Moisés → Josué → Juízes → Reis</b>. Cante 3 vezes que gruda!</div>
+
+      <div class="secao-tit"><span class="ico">🌄</span><h3>A Terra Prometida (Canaã)</h3></div>
+      <p>Canaã abrangia terras que hoje fazem parte de Síria, Líbano, Jordânia, Israel e Egito. Tinha geografia bem variada:</p>
+      <ul>
+        <li><b>Litoral:</b> planícies de solos férteis, comércio pelo Mar Mediterrâneo (com os fenícios, compravam o cedro do Líbano).</li>
+        <li><b>Território central:</b> terras altas e montanhosas com vales férteis; bom para uvas e oliveiras e fácil de defender → ali surgiram cidades como <b>Jerusalém</b> e <b>Siquém</b>.</li>
+        <li><b>Rio Jordão:</b> nasce no norte (Monte Hermon) e corre até o Mar Morto, no sul, num vale profundo (~250 km).</li>
+        <li><b>Deserto do Neguev (sul):</b> clima árido e semiárido; pastoreio e agricultura de subsistência.</li>
+      </ul>
+      <p class="mini-tip">👉 Veja o relevo e as cidades de Canaã na aba <b>🗺️ Mapas</b>!</p>
+
+      <div class="secao-tit"><span class="ico">🕯️</span><h3>Cultura e religião: o monoteísmo</h3></div>
+      <p>O povo de Israel foi o primeiro a crer em <span class="destaque">um único Deus</span> — isso se chama <span class="destaque">monoteísmo</span> (diferente do politeísmo, que crê em vários deuses). São religiões monoteístas: Cristianismo, Judaísmo e Islamismo.</p>
+      <p>No deserto, Moisés mandou construir o <span class="destaque">tabernáculo</span> (que significa "habitação"), um lugar de culto que podia ser montado e desmontado. Ali ficava a peça mais famosa: a <span class="destaque">Arca da Aliança</span>.</p>
+      <figure class="fig">
+        <span class="moldura-tag">🏕️ Maquete</span>
+        <img src="historia_img/tabernaculo.jpg" alt="Modelo do tabernáculo">
+        <figcaption>Reconstrução em tamanho real do tabernáculo (Parque Timna, Israel).</figcaption>
+      </figure>
+
+      <div class="secao-tit"><span class="ico">🏛️</span><h3>Os Templos de Jerusalém</h3></div>
+      <figure class="fig lado">
+        <span class="moldura-tag">📷 Foto real</span>
+        <img src="historia_img/muro.jpg" alt="Muro Ocidental">
+        <figcaption>O Muro Ocidental — único vestígio que restou do segundo Templo.</figcaption>
+      </figure>
+      <ul>
+        <li>Cerca de 400 anos depois, o rei <b>Salomão</b> ergueu o <b>primeiro Templo</b> em Jerusalém, feito de <b>pedras</b> e revestido de ouro e cedro.</li>
+        <li>Foi destruído em <span class="destaque">586 a.C.</span> pelos <b>babilônios</b>, e a Arca da Aliança desapareceu.</li>
+        <li>Ciro, rei da <b>Pérsia</b>, permitiu o retorno e a construção do <b>segundo Templo</b> (menor).</li>
+        <li>O rei <b>Herodes</b> reformou o templo (19 a.C.). A última destruição foi em <span class="destaque">70 d.C.</span> pelos <b>romanos</b>.</li>
+      </ul>
+      <div class="limpa"></div>
+
+      <div class="secao-tit"><span class="ico">👑</span><h3>A formação do Reino de Israel</h3></div>
+      <p>Depois de Moisés veio <b>Josué</b>, e depois os <b>juízes</b> (líderes só em momentos de perigo). O povo quis ter um rei como os outros povos. O profeta <b>Samuel</b> ungiu o primeiro rei. Foram três reis famosos:</p>
+      <div class="fig-row">
+        <figure class="fig">
+          <span class="moldura-tag">🖼️ Schindler</span>
+          <img src="historia_img/davi_golias.jpg" alt="Davi e Golias">
+          <figcaption>Davi enfrenta o gigante Golias.</figcaption>
+        </figure>
+        <figure class="fig">
+          <span class="moldura-tag">🖼️ Barrias</span>
+          <img src="historia_img/samuel_davi.jpg" alt="Davi ungido por Samuel">
+          <figcaption>Davi é ungido rei pelo profeta Samuel.</figcaption>
+        </figure>
+      </div>
+      <ul>
+        <li><b>👑 Saul — o rei rebelde:</b> reino atacado pelos filisteus (episódio de Golias × Davi). Afastou-se dos conselhos de Samuel/Deus, e por isso Deus passou o reino para outro.</li>
+        <li><b>⚔️ Davi — o rei guerreiro:</b> era pastor, filho de Jessé, ungido em Belém. Venceu o gigante <b>Golias</b> com uma pedra. Tornou <b>Jerusalém</b> a capital. Foi impedido de construir o Templo (pelo profeta Natã).</li>
+        <li><b>🦉 Salomão — o rei sábio:</b> filho de Davi, pediu a Deus <b>sabedoria</b> (o caso das duas mães!). Recebeu a rainha de Sabá. Construiu o <b>Templo</b>; o reino prosperou.</li>
+      </ul>
+      <figure class="fig">
+        <span class="moldura-tag">🖼️ Poynter</span>
+        <img src="historia_img/sheba.jpg" alt="Rainha de Sabá visita Salomão">
+        <figcaption>A rainha de Sabá visita o rei Salomão, atraída por sua sabedoria.</figcaption>
+      </figure>
+
+      <div class="secao-tit"><span class="ico">💔</span><h3>O reino dividido</h3></div>
+      <p>Após Salomão, seu filho <b>Roboão</b> não ouviu os conselheiros idosos e aumentou a carga de trabalho. O povo se revoltou e o reino se partiu em dois:</p>
+      <ul>
+        <li><b>Reino de Israel (Norte):</b> 10 tribos, líder <b>Jeroboão</b>, capital Samaria. Durou ~200 anos, conquistado em <span class="destaque">722 a.C. pela Assíria</span>.</li>
+        <li><b>Reino de Judá (Sul):</b> 2 tribos (Judá e Benjamim), capital Jerusalém. Durou ~400 anos, conquistado em <span class="destaque">586 a.C. pela Babilônia</span> (rei Nabucodonosor).</li>
+      </ul>
+      <figure class="fig">
+        <span class="moldura-tag">🖼️ Tissot</span>
+        <img src="historia_img/exilio.jpg" alt="Prisioneiros levados para a Babilônia">
+        <figcaption>Os prisioneiros de Judá sendo levados cativos para a Babilônia.</figcaption>
+      </figure>
+
+      <div class="secao-tit"><span class="ico">🌍</span><h3>Dominações e a diáspora</h3></div>
+      <p>O povo viveu o exílio na Babilônia (70 anos) até Ciro permitir o retorno. Depois vieram os domínios <b>persa</b>, <b>grego</b> (Alexandre, o Grande, em 331 a.C.) e <b>romano</b> (Judá virou a província da <b>Judeia</b>). Em <span class="destaque">132–135 d.C.</span>, o imperador romano <b>Adriano</b> expulsou os judeus (a <span class="destaque">diáspora judaica</span>) e mudou o nome para Síria Palestina.</p>
+
+      <div class="secao-tit"><span class="ico">✝️</span><h3>O legado e a Reforma Protestante</h3></div>
+      <figure class="fig lado-esq">
+        <span class="moldura-tag">📜 Foto real</span>
+        <img src="historia_img/pergaminho.jpg" alt="Manuscrito do Mar Morto">
+        <figcaption>Um dos Manuscritos do Mar Morto (Museu de Israel).</figcaption>
+      </figure>
+      <p>No domínio romano surgiu <b>Jesus Cristo</b>, e seus ensinamentos deram origem ao <span class="destaque">cristianismo</span>. Judeus e cristãos compartilham o <b>Antigo Testamento</b>; os cristãos têm também o <b>Novo Testamento</b> (Evangelhos, Atos, Epístolas/Cartas e Apocalipse).</p>
+      <div class="limpa"></div>
+      <p>Muito tempo depois, em <span class="destaque">1517</span>, o monge <b>Martinho Lutero</b> escreveu as <b>95 Teses</b> e iniciou a <span class="destaque">Reforma Protestante</span>. Traduziu a Bíblia para o alemão, e a <b>prensa de Gutenberg</b> ajudou a espalhar os textos. No Brasil, missionários protestantes chegaram em 1557 (franceses, RJ) e 1630 (holandeses, Nordeste).</p>
+      <div class="fig-row">
+        <figure class="fig">
+          <span class="moldura-tag">🖼️ Cranach</span>
+          <img src="historia_img/lutero.jpg" alt="Martinho Lutero">
+          <figcaption>Martinho Lutero, que iniciou a Reforma Protestante.</figcaption>
+        </figure>
+        <figure class="fig">
+          <span class="moldura-tag">📖 Foto real</span>
+          <img src="historia_img/gutenberg.jpg" alt="Bíblia de Gutenberg">
+          <figcaption>Bíblia impressa por Gutenberg.</figcaption>
+        </figure>
+      </div>
+
+      <div class="centro" style="margin-top:18px">
+        <button class="btn ouro" onclick="irPara('flash')">Pronta? Comece pelos Flashcards 🎴</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== MAPAS ====================== -->
+  <section class="tela" id="mapas">
+    <div class="cartao mapa-card">
+      <h2>🗺️ Mapa 1 — A jornada de Abraão</h2>
+      <p>Abraão saiu de <b>Ur</b> (Mesopotâmia), subiu pelo "Crescente Fértil" e desceu até <b>Canaã</b>. Depois, por causa da fome, o povo desceu ao <b>Egito</b>. (Este é o mesmo mapa do seu livro! 😉)</p>
+      <img class="mapa-real" src="historia_img/mapa_abraao.png" alt="Mapa da jornada de Abraão de Ur até Canaã">
+    </div>
+
+    <div class="cartao mapa-card">
+      <h2>🗺️ Mapa 2 — As doze tribos de Israel</h2>
+      <p>Os 12 filhos de Jacó deram origem às <b>12 tribos</b>, cada uma com seu território na Terra Prometida.</p>
+      <img class="mapa-real" src="historia_img/mapa_tribos.png" alt="Mapa das doze tribos de Israel">
+    </div>
+
+    <div class="cartao mapa-card">
+      <h2>🗺️ Mapa 3 — O reino unido (Saul e Davi)</h2>
+      <p>No tempo de <b>Saul</b> e <b>Davi</b>, as tribos estavam unidas num só reino, com capital em <b>Jerusalém</b>. Repare nos vizinhos: filisteus, moabitas, edomitas...</p>
+      <img class="mapa-real" src="historia_img/mapa_reinos.png" alt="Mapa do reino unido de Israel">
+    </div>
+
+    <div class="cartao mapa-card">
+      <h2>🗺️ Mapa 4 — O reino dividido: Israel e Judá</h2>
+      <p>Depois de Salomão, o reino se partiu: <b>Israel</b> ao norte (azul, capital Samaria) e <b>Judá</b> ao sul (amarelo, capital Jerusalém).</p>
+      <img class="mapa-real" src="historia_img/mapa_israel_juda.png" alt="Mapa dos reinos de Israel e Judá">
+      <div class="legenda">
+        <span><i style="background:#5aa9d6"></i> Reino de Israel — 722 a.C. (Assíria)</span>
+        <span><i style="background:#f6b62b"></i> Reino de Judá — 586 a.C. (Babilônia)</span>
+      </div>
+      <div class="dica-cerebro"><b>🧠 Cor ajuda a lembrar:</b> azul em cima = Norte (Israel), amarelo embaixo = Sul (Judá, onde fica o Templo de Jerusalém). Associar cor + lugar é "dual coding": o cérebro guarda a imagem E a palavra.</div>
+    </div>
+  </section>
+
+  <!-- ====================== FLASHCARDS ====================== -->
+  <section class="tela" id="flash">
+    <div class="cartao">
+      <h2>🎴 Flashcards</h2>
+      <p class="mini-tip">Responda na cabeça ANTES de virar. Acertou? "Já sei 😎". Esqueceu? "Revisar 🔁" — ele volta no fim.</p>
+      <div class="fc-stage">
+        <div class="flashcard" id="flashcard" onclick="virarFlash()">
+          <div class="fc-face fc-frente">
+            <span class="fc-tag" id="fcTag"></span>
+            <div class="pergunta" id="fcPergunta"></div>
+            <span class="fc-hint">👆 toque para virar</span>
+          </div>
+          <div class="fc-face fc-verso">
+            <div class="resposta" id="fcResposta"></div>
+            <span class="fc-hint">👆 toque para voltar</span>
+          </div>
+        </div>
+      </div>
+      <div class="fc-ctrl">
+        <button class="btn sec" onclick="navFlash(-1)">⬅️</button>
+        <span class="fc-conta" id="fcConta">1 / 1</span>
+        <button class="btn sec" onclick="navFlash(1)">➡️</button>
+      </div>
+      <div class="fc-saber">
+        <button class="btn" onclick="marcarFlash(true)">Já sei 😎</button>
+        <button class="btn ouro" onclick="marcarFlash(false)">Revisar 🔁</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== QUIZ ====================== -->
+  <section class="tela" id="quiz">
+    <div class="cartao" id="quizBox">
+      <h2>❓ Quiz do Deserto</h2>
+      <div class="barra-prog"><div id="quizProg"></div></div>
+      <div class="q-card" id="qPergunta"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-feedback" id="qFeedback"></div>
+      <div class="centro" style="margin-top:14px">
+        <button class="btn" id="qProx" onclick="proxQuiz()" style="display:none">Próxima ➡️</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== LIGAR ====================== -->
+  <section class="tela" id="ligar">
+    <div class="cartao">
+      <h2>🔗 Jogo de Ligar</h2>
+      <p class="mini-tip">Toque numa palavra da esquerda e depois no par certo da direita.</p>
+      <div class="ligar-wrap">
+        <div class="ligar-col" id="ligarA"></div>
+        <div class="ligar-col" id="ligarB"></div>
+      </div>
+      <div class="centro" style="margin-top:14px">
+        <button class="btn sec" onclick="montarLigar()">🔄 Embaralhar de novo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== LINHA DO TEMPO ====================== -->
+  <section class="tela" id="tempo">
+    <div class="cartao">
+      <h2>⏳ Numere a ordem certa</h2>
+      <p class="mini-tip">Escreva no quadradinho o número de cada acontecimento, do mais antigo (1) ao mais novo (8). Depois clique em Conferir!</p>
+      <div class="lt-lista" id="ltLista"></div>
+      <div class="centro" style="margin-top:14px">
+        <button class="btn" onclick="conferirTempo()">✅ Conferir</button>
+        <button class="btn sec" onclick="montarTempo()">🔄 Limpar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COMPLETAR ====================== -->
+  <section class="tela" id="completar">
+    <div class="cartao">
+      <h2>✏️ Complete as frases</h2>
+      <p class="mini-tip">Escolha a palavra certa do banco e escreva em cada espaço.</p>
+      <div class="banco" id="compBanco"></div>
+      <div id="compFrases"></div>
+      <div class="centro" style="margin-top:14px">
+        <button class="btn" onclick="conferirComp()">✅ Conferir</button>
+        <button class="btn sec" onclick="montarComp()">🔄 Limpar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CAÇA-PALAVRAS ====================== -->
+  <section class="tela" id="caca">
+    <div class="cartao">
+      <h2>🔍 Caça-Palavras</h2>
+      <p class="mini-tip">Arraste do começo ao fim da palavra (em linha ou diagonal). Encontre todas!</p>
+      <div class="caca-scroll"><div id="cacaGrid"></div></div>
+      <div class="cp-lista" id="cacaLista"></div>
+    </div>
+  </section>
+
+  <!-- ====================== CRUZADINHA ====================== -->
+  <section class="tela" id="cruz">
+    <div class="cartao">
+      <h2>🧩 Cruzadinha</h2>
+      <p class="mini-tip">Leia as dicas e preencha. As letras verdes mostram que acertou!</p>
+      <div class="cruz-scroll"><div id="cruzGrid"></div></div>
+      <div class="cz-dicas">
+        <div><h4>➡️ Horizontais</h4><ol id="cruzH"></ol></div>
+        <div><h4>⬇️ Verticais</h4><ol id="cruzV"></ol></div>
+      </div>
+      <div class="centro" style="margin-top:14px">
+        <button class="btn" onclick="conferirCruz()">✅ Conferir</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== MEMÓRIA ====================== -->
+  <section class="tela" id="memoria">
+    <div class="cartao">
+      <h2>🧠 Jogo da Memória</h2>
+      <p class="mini-tip">Ache os pares: o emoji combina com a pessoa/coisa certa.</p>
+      <div class="mem-grid" id="memGrid"></div>
+      <div class="centro" style="margin-top:14px">
+        <span class="fc-conta" id="memMov">Jogadas: 0</span>
+        <button class="btn sec" onclick="montarMemoria()">🔄 Novo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== DESAFIO FARAÓ ====================== -->
+  <section class="tela" id="faraó">
+    <div class="cartao" id="faraoBox">
+      <h2>👑 Desafio Faraó (nível difícil)</h2>
+      <p class="mini-tip">Perguntas mais cabeçudas. Cada acerto vale XP em dobro! 💎</p>
+      <div class="barra-prog"><div id="faraoProg"></div></div>
+      <div class="q-card" id="fPergunta"></div>
+      <div class="q-opts" id="fOpts"></div>
+      <div class="q-feedback" id="fFeedback"></div>
+      <div class="centro" style="margin-top:14px">
+        <button class="btn ouro" id="fProx" onclick="proxFarao()" style="display:none">Próxima ➡️</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== ÁLBUM ====================== -->
+  <section class="tela" id="album">
+    <div class="cartao">
+      <h2>🎖️ Meu Álbum de Figurinhas</h2>
+      <p class="mini-tip">Complete os jogos e suba de nível pra colecionar todas! Ficam salvas no aparelho.</p>
+      <div class="album-prog" id="albumProg">0 / 12 figurinhas</div>
+      <div class="album-grid" id="albumGrid"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ===== GAMIFICAÇÃO ===== */
+let XP=0, NIVEL=1, STREAK=0; const XP_NIVEL=100;
+const RANKS=[
+  {emoji:'🐫',nome:'Aprendiz do Deserto'},
+  {emoji:'🐑',nome:'Pastor de Ovelhas'},
+  {emoji:'📜',nome:'Escriba'},
+  {emoji:'⚔️',nome:'Guerreiro de Davi'},
+  {emoji:'🦉',nome:'Conselheiro do Rei'},
+  {emoji:'👑',nome:'Príncipe(sa) de Israel'},
+  {emoji:'🌟',nome:'Sábio como Salomão'},
+  {emoji:'🏆',nome:'Faraó do Saber'},
+];
+function rankAtual(){ return RANKS[Math.min(NIVEL-1,RANKS.length-1)]; }
+function ganharXP(n){ XP+=n; while(XP>=XP_NIVEL){XP-=XP_NIVEL;NIVEL++;subiuNivel();} atualizarHUD(); salvar(); }
+function atualizarHUD(){
+  document.getElementById('xpfill').style.width=(XP/XP_NIVEL*100)+'%';
+  document.getElementById('xptxt').textContent=XP+' / '+XP_NIVEL+' XP';
+  document.getElementById('nivel').textContent=rankAtual().emoji+' Nv '+NIVEL;
+  document.getElementById('streak').textContent='🔥 '+STREAK;
+}
+function subiuNivel(){
+  pulaMascote(); flashTela(); confete(); sfx('level');
+  const r=rankAtual();
+  abrirModal(r.emoji,'Subiu de Nível! 🎉','<div class="rank-nome">'+r.nome+'</div><p>Agora você é nível '+NIVEL+'. Continue a jornada!</p>');
+  if(NIVEL===3)ganharSticker('escriba'); if(NIVEL===5)ganharSticker('conselheiro');
+}
+const PRAISE=["Mandou bem! 🌟","Isso aí! 🎉","Você é fera! 💪","Continua assim! ✨","Boa, Nina! 👏","Arrasou! 🐫"];
+const GENTLE=["Quase! Tenta de novo 💛","Sem problema, bora! 🐫","Errar faz aprender 🌱","Você consegue! 💫"];
+function acerto(xp=10){ STREAK++; hapt(18); sfx('correct'); flutuaXP(xp); if(STREAK%5===0){toast('🔥 Sequência de '+STREAK+'! Bônus +15 XP');ganharXP(15);} ganharXP(xp); pulaMascote(); mascoteFala(PRAISE[Math.floor(Math.random()*PRAISE.length)],'feliz'); }
+function erro(){ STREAK=0; hapt([12,40,12]); sfx('wrong'); atualizarHUD(); mascoteFala(GENTLE[Math.floor(Math.random()*GENTLE.length)],'triste'); salvar(); }
+function pulaMascote(){ const m=document.getElementById('mascote'); m.style.transform='translateY(-12px) scale(1.3)'; setTimeout(()=>m.style.transform='',300); }
+
+/* ===== HAPTIC / GUIA / RIPPLE / SPLASH / REVEAL ===== */
+function hapt(p){ try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} }
+let _balaoT;
+function mascoteFala(msg,mood){
+  const g=document.getElementById('guia'), b=document.getElementById('balao');
+  if(!g||!b)return;
+  b.textContent=msg; b.classList.add('show');
+  g.classList.remove('feliz','triste'); void g.offsetWidth; if(mood)g.classList.add(mood);
+  clearTimeout(_balaoT); _balaoT=setTimeout(()=>b.classList.remove('show'),2600);
+}
+const DUNNI_TIPS=["Estude um pouco e depois jogue pra fixar! 🎴","Dica: no quiz, leia tudo antes de escolher 😉","Você está indo super bem! 🌟","Tenta o Desafio Faraó pra ganhar XP em dobro 👑","Lembrar sem olhar gruda mais na memória 🧠"];
+function dunniOi(){ hapt(10); mascoteFala(DUNNI_TIPS[Math.floor(Math.random()*DUNNI_TIPS.length)],'feliz'); }
+function fecharSplash(){ const s=document.getElementById('splash'); if(s)s.classList.add('hide'); initAudio(); hapt(15); setTimeout(()=>mascoteFala('Oi! Eu sou o Dunni 🐫 Toque em mim quando quiser uma dica!','feliz'),700); }
+function fazerEstrelas(){ const e=document.getElementById('estrelas'); if(!e)return; const ic=['✦','✧','⭐','✨']; for(let i=0;i<22;i++){ const s=document.createElement('span'); s.textContent=ic[i%ic.length]; s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%'; s.style.fontSize=(10+Math.random()*18)+'px'; s.style.animationDelay=(Math.random()*2.5)+'s'; e.appendChild(s); } }
+function addRipple(b,e){ const r=document.createElement('span'); r.className='ripple'; const rect=b.getBoundingClientRect(); const size=Math.max(rect.width,rect.height); r.style.width=r.style.height=size+'px'; const x=(e.clientX||rect.left+rect.width/2)-rect.left-size/2; const y=(e.clientY||rect.top+rect.height/2)-rect.top-size/2; r.style.left=x+'px'; r.style.top=y+'px'; b.appendChild(r); setTimeout(()=>r.remove(),600); }
+document.addEventListener('click',e=>{ const b=e.target.closest('.btn'); if(b)addRipple(b,e); });
+function setupReveal(){
+  const els=document.querySelectorAll('.cartao, .fig, .secao-tit');
+  els.forEach(e=>e.classList.add('reveal'));
+  const io=new IntersectionObserver(ents=>{ ents.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); },{threshold:.08});
+  els.forEach(e=>io.observe(e));
+}
+
+/* ===== SOM (WebAudio sintetizado, sem arquivos) ===== */
+let SOM=true, actx=null;
+function initAudio(){ if(!actx){ try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(actx&&actx.state==='suspended')actx.resume(); }
+function tone(freq,dur,type,vol,delay){ if(!SOM||!actx)return; const t0=actx.currentTime+(delay||0); const o=actx.createOscillator(),g=actx.createGain(); o.type=type||'sine'; o.frequency.value=freq; o.connect(g); g.connect(actx.destination); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol||.16,t0+.012); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); o.start(t0); o.stop(t0+dur+.03); }
+function sfx(kind){
+  if(!SOM)return; initAudio(); if(!actx)return;
+  if(kind==='correct'){ tone(660,.12,'triangle',.18,0); tone(990,.16,'triangle',.16,.09); }
+  else if(kind==='wrong'){ tone(200,.18,'sawtooth',.1,0); tone(150,.22,'sawtooth',.1,.1); }
+  else if(kind==='tap'){ tone(520,.06,'sine',.09,0); }
+  else if(kind==='sticker'){ [523,659,784,1046].forEach((f,i)=>tone(f,.2,'triangle',.16,i*.07)); }
+  else if(kind==='level'){ [523,659,784,1046,1318].forEach((f,i)=>tone(f,.26,'square',.12,i*.09)); }
+  else if(kind==='win'){ [659,784,988,1318].forEach((f,i)=>tone(f,.22,'triangle',.17,i*.08)); }
+}
+function toggleSom(){ SOM=!SOM; document.getElementById('sombtn').textContent=SOM?'🔊':'🔇'; if(SOM){initAudio();sfx('tap');} salvar(); }
+
+/* ===== +XP flutuante / flash de tela ===== */
+function flutuaXP(n){ const el=document.createElement('div'); el.className='floatxp'; el.textContent='+'+n+' XP'; const x=window._lx||window.innerWidth/2, y=window._ly||(window.innerHeight*0.4); el.style.left=x+'px'; el.style.top=y+'px'; document.body.appendChild(el); el.animate([{transform:'translate(-50%,-50%) scale(.6)',opacity:0},{transform:'translate(-50%,-130%) scale(1.15)',opacity:1,offset:.3},{transform:'translate(-50%,-260%) scale(1)',opacity:0}],{duration:1100,easing:'cubic-bezier(.2,.8,.2,1)'}); setTimeout(()=>el.remove(),1160); }
+document.addEventListener('pointerdown',e=>{ window._lx=e.clientX; window._ly=e.clientY; },true);
+function flashTela(){ const f=document.getElementById('flash'); if(!f)return; f.classList.remove('go'); void f.offsetWidth; f.classList.add('go'); }
+
+/* ===== MODAL de celebração ===== */
+function abrirModal(ic,titulo,htmlCorpo){ const m=document.getElementById('modal'),c=document.getElementById('modalCard'); c.innerHTML='<span class="ic">'+ic+'</span><h3>'+titulo+'</h3>'+htmlCorpo+'<button class="btn ouro" onclick="fecharModal()">Continuar ✨</button>'; m.classList.add('show'); }
+function fecharModal(){ document.getElementById('modal').classList.remove('show'); hapt(8); sfx('tap'); }
+
+/* ===== FIGURINHAS ===== */
+const STICKERS=[
+  {id:'flash',e:'🎴',n:'Estudiosa'},
+  {id:'quiz',e:'🎯',n:'Mestre do Quiz'},
+  {id:'ligar',e:'🔗',n:'Conecta-Tudo'},
+  {id:'tempo',e:'⏳',n:'Senhor do Tempo'},
+  {id:'completar',e:'✏️',n:'Completa-Frases'},
+  {id:'caca',e:'🔍',n:'Caça-Letras'},
+  {id:'cruz',e:'🧩',n:'Cruza-Palavras'},
+  {id:'memoria',e:'🧠',n:'Memória Top'},
+  {id:'farao',e:'👑',n:'Faraó do Saber'},
+  {id:'escriba',e:'📜',n:'Escriba (Nv 3)'},
+  {id:'conselheiro',e:'🦉',n:'Conselheiro (Nv 5)'},
+  {id:'lenda',e:'🌟',n:'Lenda do Deserto'},
+];
+let STK=[];
+function ganharSticker(id){
+  if(STK.includes(id))return; STK.push(id); salvar(); renderAlbum();
+  flashTela(); confete(); sfx('sticker'); hapt([20,30,20]);
+  const s=STICKERS.find(x=>x.id===id);
+  abrirModal(s.e,'Nova figurinha! 🎉','<div class="rank-nome">'+s.n+'</div><p>Foi direto pro seu álbum 🎖️</p>');
+  const completou=STICKERS.filter(x=>x.id!=='lenda').every(x=>STK.includes(x.id));
+  if(completou && !STK.includes('lenda')) setTimeout(()=>ganharSticker('lenda'),1400);
+}
+function renderAlbum(){
+  const g=document.getElementById('albumGrid'); if(!g)return; g.innerHTML='';
+  STICKERS.forEach(s=>{ const have=STK.includes(s.id); const d=document.createElement('div'); d.className='fig-stk '+(have?'have':'locked'); d.innerHTML='<span class="emj">'+s.e+'</span><div class="nm">'+(have?s.n:'???')+'</div>'+(have?'':'<span class="lock">🔒</span>'); g.appendChild(d); });
+  const p=document.getElementById('albumProg'); if(p)p.textContent=STK.length+' / '+STICKERS.length+' figurinhas';
+}
+function festa(id){ confete(); sfx('win'); flashTela(); if(id)ganharSticker(id); }
+
+/* ===== SALVAR / CARREGAR (localStorage) ===== */
+function salvar(){ try{ localStorage.setItem('nina_hebreu', JSON.stringify({XP,NIVEL,STK,SOM})); }catch(e){} }
+function carregar(){ try{ const d=JSON.parse(localStorage.getItem('nina_hebreu')); if(d){ XP=d.XP||0; NIVEL=d.NIVEL||1; STK=d.STK||[]; SOM=d.SOM!==false; } }catch(e){} const sb=document.getElementById('sombtn'); if(sb)sb.textContent=SOM?'🔊':'🔇'; }
+
+function toast(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200); }
+function confete(){
+  const cores=['#ff5d8f','#f6b62b','#13b39c','#5b3a8a','#41b06a','#ff8a4c'];
+  for(let i=0;i<44;i++){ const c=document.createElement('div'); c.className='confete';
+    c.style.left=Math.random()*100+'vw'; c.style.background=cores[i%cores.length]; c.style.transform='rotate('+Math.random()*360+'deg)';
+    document.body.appendChild(c); const dur=1500+Math.random()*1500;
+    c.animate([{top:'-12px',opacity:1},{top:'100vh',opacity:.2}],{duration:dur,easing:'cubic-bezier(.3,.7,.5,1)'});
+    setTimeout(()=>c.remove(),dur);
+  }
+}
+
+/* ===== NAV ===== */
+document.getElementById('nav').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b)irPara(b.dataset.tela); });
+function irPara(id){
+  hapt(8);
+  document.querySelectorAll('nav.abas button').forEach(b=>b.classList.toggle('on',b.dataset.tela===id));
+  document.querySelectorAll('section.tela').forEach(s=>s.classList.toggle('on',s.id===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===== DADOS ===== */
+const FLASH=[
+  ["Quem saiu de Ur rumo a Canaã?","Abraão — Deus mandou ele sair e prometeu fazer dele um grande povo.","Origem"],
+  ["Em que cidade Abraão morava?","Em Ur, na Mesopotâmia.","Origem"],
+  ["Quem eram os filhos gêmeos de Isaque e Rebeca?","Esaú e Jacó.","Família"],
+  ["Quantas tribos de Israel existiram e de quem vieram?","12 tribos, vindas dos 12 filhos de Jacó (que ganhou o nome de Israel).","Família"],
+  ["Por que o povo foi para o Egito?","Por causa de uma grande fome em Canaã.","Egito"],
+  ["Quanto tempo o povo ficou escravizado no Egito?","430 anos.","Egito"],
+  ["Quem libertou o povo do Egito?","Moisés.","Egito"],
+  ["Quantos anos o povo caminhou no deserto?","40 anos, até chegar a Canaã.","Egito"],
+  ["O que Moisés recebeu de Deus no deserto?","As Tábuas da Lei (os Dez Mandamentos).","Religião"],
+  ["O que significa monoteísmo?","Crença em um único Deus. O povo de Israel foi o primeiro a crer assim.","Religião"],
+  ["O que era o tabernáculo?","Um lugar de culto portátil (montar e desmontar) construído no deserto. Significa 'habitação'.","Religião"],
+  ["Qual era a peça mais famosa do tabernáculo?","A Arca da Aliança.","Religião"],
+  ["Qual rei construiu o primeiro Templo, de pedras, em Jerusalém?","Salomão.","Templos"],
+  ["Quem destruiu o primeiro Templo em 586 a.C.?","Os babilônios (a Arca da Aliança desapareceu).","Templos"],
+  ["O que sobrou do segundo Templo?","O Muro Ocidental.","Templos"],
+  ["Quem foi o primeiro rei de Israel e quem o ungiu?","Saul, ungido pelo profeta Samuel.","Reis"],
+  ["Por que Davi ficou famoso quando jovem?","Venceu o gigante Golias com uma pedra.","Reis"],
+  ["Qual cidade Davi tornou a capital do reino?","Jerusalém.","Reis"],
+  ["Pelo que Salomão é mais conhecido?","Pela sabedoria (ele pediu sabedoria a Deus) e por construir o Templo.","Reis"],
+  ["Por que o reino se dividiu depois de Salomão?","Roboão não ouviu os conselheiros idosos e aumentou a carga de trabalho; o povo se revoltou.","Divisão"],
+  ["Qual reino ficou ao Norte e quem o liderou?","Reino de Israel, 10 tribos, liderado por Jeroboão.","Divisão"],
+  ["Qual reino ficou ao Sul e qual era sua capital?","Reino de Judá, 2 tribos, capital Jerusalém.","Divisão"],
+  ["Quem conquistou o Reino de Israel em 722 a.C.?","A Assíria.","Divisão"],
+  ["Quem conquistou o Reino de Judá em 586 a.C.?","A Babilônia (rei Nabucodonosor).","Divisão"],
+  ["O que foi a diáspora judaica?","A dispersão forçada dos judeus, quando o imperador romano Adriano os expulsou (132–135 d.C.).","Dominações"],
+  ["Qual religião surgiu dos ensinamentos de Jesus Cristo?","O cristianismo.","Legado"],
+  ["Quem iniciou a Reforma Protestante e em que ano?","Martinho Lutero, em 1517, com as 95 Teses.","Legado"],
+];
+const QUIZ=[
+  ["De onde Abraão saiu para ir a Canaã?",["Ur (Mesopotâmia)","Egito","Jerusalém","Babilônia"],0],
+  ["O povo hebreu foi o primeiro a acreditar em...",["vários deuses","um único Deus (monoteísmo)","nenhum deus","deuses do Egito"],1],
+  ["Quem libertou o povo da escravidão no Egito?",["Davi","Josué","Moisés","Salomão"],2],
+  ["A Terra Prometida tem o nome de:",["Síria","Egito","Mesopotâmia","Canaã"],3],
+  ["Quanto tempo o povo ficou escravizado no Egito?",["40 anos","430 anos","70 anos","200 anos"],1],
+  ["Quem venceu o gigante Golias?",["Saul","Davi","Salomão","Moisés"],1],
+  ["Qual rei é conhecido pela sabedoria?",["Saul","Davi","Salomão","Roboão"],2],
+  ["O primeiro Templo de Jerusalém foi construído por:",["Davi","Salomão","Herodes","Moisés"],1],
+  ["O Reino do Norte (Israel) foi conquistado em 722 a.C. por:",["Babilônia","Pérsia","Assíria","Roma"],2],
+  ["O Reino do Sul (Judá) foi conquistado em 586 a.C. por:",["Assíria","Babilônia","Egito","Grécia"],1],
+  ["A região do Neguev, no sul de Canaã, tinha clima:",["frio e chuvoso","tropical","árido e semiárido","gelado"],2],
+  ["Religião que surgiu dos ensinamentos de Jesus:",["Judaísmo","Islamismo","Cristianismo","Politeísmo"],2],
+  ["A dispersão forçada dos judeus é chamada de:",["exílio","diáspora","migração","reforma"],1],
+  ["Quem iniciou a Reforma Protestante em 1517?",["Gutenberg","Martinho Lutero","Ciro","Adriano"],1],
+  ["Depois de Moisés, quem liderou o povo na entrada da Terra Prometida?",["Saul","Josué","Davi","Samuel"],1],
+];
+const LIGAR=[
+  ["Abraão","Saiu de Ur rumo a Canaã"],["Moisés","Libertou o povo do Egito"],
+  ["Davi","Venceu o gigante Golias"],["Salomão","Construiu o 1º Templo"],
+  ["Jeroboão","Liderou o Reino do Norte"],["Martinho Lutero","Iniciou a Reforma Protestante"],
+];
+const TEMPO=[
+  ["🐫","Abraão sai de Ur rumo a Canaã",1],
+  ["👶","Nascem os gêmeos Esaú e Jacó",2],
+  ["⛓️","O povo é escravizado no Egito",3],
+  ["🌊","Moisés liberta o povo e cruza o deserto",4],
+  ["👑","Saul torna-se o primeiro rei",5],
+  ["🏛️","Salomão constrói o Templo",6],
+  ["💔","O reino se divide em Israel e Judá",7],
+  ["😢","Judá é levado cativo para a Babilônia",8],
+];
+const COMPLETAR=[
+  ["Abraão saiu da cidade de ___ rumo a Canaã.","Ur"],
+  ["O povo ficou ___ anos escravizado no Egito.","430"],
+  ["___ libertou o povo da escravidão.","Moisés"],
+  ["Crer em um único Deus se chama ___.","monoteísmo"],
+  ["O rei ___ construiu o primeiro Templo.","Salomão"],
+  ["O Reino do Norte era chamado de ___.","Israel"],
+  ["A capital do Reino de Judá era ___.","Jerusalém"],
+  ["A Reforma Protestante foi iniciada por Martinho ___.","Lutero"],
+];
+const CACA_PALAVRAS=["ABRAAO","MOISES","DAVI","SALOMAO","CANAA","ISRAEL","JUDA","SAUL","TEMPLO","DESERTO"];
+const CRUZ=[
+  {palavra:"MOISES", dica:"Libertou o povo do Egito", dir:"H", r:2, c:0},
+  {palavra:"SALOMAO", dica:"Rei sábio que construiu o Templo", dir:"H", r:6, c:1},
+  {palavra:"CANAA", dica:"O nome da Terra Prometida", dir:"H", r:9, c:2},
+  {palavra:"ABRAAO", dica:"Saiu de Ur rumo a Canaã", dir:"V", r:0, c:4},
+  {palavra:"DAVI", dica:"Venceu o gigante Golias", dir:"V", r:2, c:2},
+  {palavra:"SAUL", dica:"Primeiro rei de Israel", dir:"V", r:6, c:1},
+];
+const MEMORIA=[
+  ["🐫","Abraão"],["🌊","Moisés"],["🪨","Davi"],["🦉","Salomão"],
+  ["🏛️","Templo"],["📜","Tábuas da Lei"],["👑","Saul"],["🗺️","Canaã"],
+];
+const FARAO=[
+  ["Coloque em ordem: Moisés, Josué, Juízes. Quem vem logo depois dos Juízes?",["Abraão","Os reis (como Saul)","Os faraós","Os romanos"],1],
+  ["Por que o território central de Canaã foi escolhido para fundar cidades?",["Era o único com água","Tinha terras altas, fáceis de defender","Ficava na praia","Era o mais quente"],1],
+  ["Qual a diferença entre o EXÍLIO na Babilônia e a DIÁSPORA?",["São a mesma coisa","No exílio foram para um lugar (Babilônia); na diáspora se espalharam por vários","O exílio foi voluntário","A diáspora foi só de reis"],1],
+  ["O segundo Templo foi possível porque...",["os babilônios reconstruíram","Ciro, da Pérsia, permitiu o retorno dos judeus","Salomão voltou","Roma ajudou"],1],
+  ["Davi quis construir o Templo, mas foi impedido. Por quê?",["Não tinha dinheiro","Uma palavra de Deus pelo profeta Natã: a tarefa seria do rei que o sucederia","Estava velho demais","Os filisteus impediram"],1],
+  ["Por que Judá durou o dobro do tempo de Israel (~400 vs ~200 anos)?",["Era maior","Vários reis de Judá buscaram obedecer a Deus","Tinha mais tribos","Ficava no norte"],1],
+  ["A prensa de Gutenberg foi importante para a Reforma porque...",["traduziu a Bíblia sozinha","permitiu imprimir e espalhar os textos com rapidez","derrotou a Igreja","foi inventada por Lutero"],1],
+  ["Qual sequência de dominações está correta?",["Roma → Grécia → Pérsia","Pérsia → Grécia (Alexandre) → Roma","Grécia → Roma → Pérsia","Babilônia → Roma → Pérsia"],1],
+];
+
+/* ===== FLASHCARDS ===== */
+let fcOrdem=[], fcIdx=0, fcVirado=false, fcRevisar=[];
+function montarFlash(){ fcOrdem=FLASH.map((_,i)=>i); fcRevisar=[]; fcIdx=0; renderFlash(); }
+function renderFlash(){
+  const f=FLASH[fcOrdem[fcIdx]];
+  document.getElementById('fcTag').textContent=f[2];
+  document.getElementById('fcPergunta').textContent=f[0];
+  document.getElementById('fcResposta').textContent=f[1];
+  document.getElementById('fcConta').textContent=(fcIdx+1)+' / '+fcOrdem.length;
+  fcVirado=false; document.getElementById('flashcard').classList.remove('virado');
+}
+function virarFlash(){ fcVirado=!fcVirado; document.getElementById('flashcard').classList.toggle('virado',fcVirado); }
+function navFlash(d){ fcIdx=(fcIdx+d+fcOrdem.length)%fcOrdem.length; renderFlash(); }
+function marcarFlash(sabe){
+  const i=fcOrdem[fcIdx];
+  if(sabe){ acerto(5); toast('😎 +5 XP'); } else { if(!fcRevisar.includes(i))fcRevisar.push(i); toast('🔁 Vai voltar pra revisar!'); }
+  if(fcIdx<fcOrdem.length-1){ fcIdx++; renderFlash(); }
+  else if(fcRevisar.length){ fcOrdem=fcRevisar.slice(); fcRevisar=[]; fcIdx=0; toast('🔁 Hora de revisar os marcados!'); renderFlash(); }
+  else { toast('🏆 Você revisou tudo! Mandou bem!'); festa('flash'); }
+}
+
+/* ===== QUIZ ===== */
+let qOrdem=[], qIdx=0, qAcertos=0, qRespondeu=false;
+function montarQuiz(){ qOrdem=embaralhar(QUIZ.map((_,i)=>i)); qIdx=0; qAcertos=0; renderQuiz(); }
+function renderQuiz(){
+  qRespondeu=false; const q=QUIZ[qOrdem[qIdx]];
+  document.getElementById('quizProg').style.width=(qIdx/qOrdem.length*100)+'%';
+  document.getElementById('qPergunta').textContent='('+(qIdx+1)+'/'+qOrdem.length+') '+q[0];
+  const box=document.getElementById('qOpts'); box.innerHTML='';
+  embaralhar(q[1].map((_,i)=>i)).forEach(oi=>{ const b=document.createElement('button'); b.className='q-opt'; b.textContent=q[1][oi]; b.onclick=()=>responderQuiz(b,oi===q[2],q); box.appendChild(b); });
+  document.getElementById('qFeedback').className='q-feedback'; document.getElementById('qProx').style.display='none';
+}
+function responderQuiz(btn,certo,q){
+  if(qRespondeu)return; qRespondeu=true; const fb=document.getElementById('qFeedback');
+  document.querySelectorAll('#qOpts .q-opt').forEach(b=>{ if(b.textContent===q[1][q[2]])b.classList.add('certo'); b.style.pointerEvents='none'; });
+  if(certo){ btn.classList.add('certo'); qAcertos++; acerto(10); fb.textContent='✅ Isso! +10 XP'; fb.className='q-feedback show bom'; }
+  else{ btn.classList.add('errado'); erro(); fb.textContent='❌ Quase! A resposta certa é: '+q[1][q[2]]; fb.className='q-feedback show ruim'; }
+  document.getElementById('qProx').style.display='inline-block';
+}
+function proxQuiz(){ if(qIdx<qOrdem.length-1){ qIdx++; renderQuiz(); } else finalQuiz(); }
+function finalQuiz(){
+  const pct=Math.round(qAcertos/qOrdem.length*100);
+  const emoji=pct>=80?'🏆':pct>=50?'👍':'💪', msg=pct>=80?'Mestre do deserto!':pct>=50?'Muito bem, continue!':'Bora revisar e tentar de novo!';
+  document.getElementById('quizBox').innerHTML='<div class="resultado"><div class="big">'+emoji+'</div><h3>Você acertou '+qAcertos+' de '+qOrdem.length+'!</h3><p>'+msg+'</p><button class="btn" onclick="resetQuiz()">🔄 Jogar de novo</button></div>';
+  ganharSticker('quiz'); if(pct>=80){confete();sfx('win');}
+}
+function resetQuiz(){
+  document.getElementById('quizBox').innerHTML='<h2>❓ Quiz do Deserto</h2><div class="barra-prog"><div id="quizProg"></div></div><div class="q-card" id="qPergunta"></div><div class="q-opts" id="qOpts"></div><div class="q-feedback" id="qFeedback"></div><div class="centro" style="margin-top:14px"><button class="btn" id="qProx" onclick="proxQuiz()" style="display:none">Próxima ➡️</button></div>';
+  montarQuiz();
+}
+
+/* ===== LIGAR ===== */
+let lgSel=null, lgFeitos=0;
+function montarLigar(){
+  lgSel=null; lgFeitos=0;
+  const A=document.getElementById('ligarA'), B=document.getElementById('ligarB'); A.innerHTML=''; B.innerHTML='';
+  embaralhar(LIGAR.map((_,i)=>i)).forEach(i=>{ const d=document.createElement('div'); d.className='lg-item'; d.textContent=LIGAR[i][0]; d.dataset.id=i; d.dataset.lado='A'; d.onclick=()=>clicaLigar(d); A.appendChild(d); });
+  embaralhar(LIGAR.map((_,i)=>i)).forEach(i=>{ const d=document.createElement('div'); d.className='lg-item'; d.textContent=LIGAR[i][1]; d.dataset.id=i; d.dataset.lado='B'; d.onclick=()=>clicaLigar(d); B.appendChild(d); });
+}
+function clicaLigar(el){
+  if(el.classList.contains('ok'))return;
+  if(!lgSel){ if(el.dataset.lado!=='A')return; lgSel=el; el.classList.add('sel'); return; }
+  if(el.dataset.lado!=='B'){ lgSel.classList.remove('sel'); lgSel=el.dataset.lado==='A'?el:null; if(lgSel)lgSel.classList.add('sel'); return; }
+  if(el.dataset.id===lgSel.dataset.id){
+    el.classList.add('ok'); lgSel.classList.add('ok'); lgSel.classList.remove('sel'); lgSel=null; lgFeitos++; acerto(8); toast('🔗 Par certo! +8 XP');
+    if(lgFeitos===LIGAR.length){ toast('🏆 Ligou tudo!'); festa('ligar'); }
+  } else { el.classList.add('err'); const s=lgSel; setTimeout(()=>{el.classList.remove('err'); s.classList.remove('sel');},400); lgSel=null; erro(); }
+}
+
+/* ===== LINHA DO TEMPO (numerar) ===== */
+let ltShuf=[];
+function montarTempo(){
+  ltShuf=embaralhar(TEMPO.map((_,i)=>i));
+  while(ltShuf.every((v,i)=>TEMPO[v][2]===i+1)) ltShuf=embaralhar(TEMPO.map((_,i)=>i));
+  renderTempo();
+}
+function renderTempo(){
+  const L=document.getElementById('ltLista'); L.innerHTML='';
+  ltShuf.forEach(id=>{
+    const d=document.createElement('div'); d.className='lt-item';
+    d.innerHTML='<input class="lt-inp" type="number" min="1" max="'+TEMPO.length+'" inputmode="numeric" data-correct="'+TEMPO[id][2]+'">'+
+      '<span class="lt-emoji">'+TEMPO[id][0]+'</span><span>'+TEMPO[id][1]+'</span>';
+    L.appendChild(d);
+  });
+}
+function conferirTempo(){
+  let ok=0; const itens=document.querySelectorAll('#ltLista .lt-item');
+  itens.forEach(it=>{
+    const inp=it.querySelector('.lt-inp'); const certo=parseInt(inp.value,10)===parseInt(inp.dataset.correct,10);
+    it.classList.toggle('ok',certo); it.classList.toggle('no',!certo); if(certo)ok++;
+  });
+  if(ok===itens.length){ acerto(25); toast('🏆 Linha do tempo perfeita! +25 XP'); festa('tempo'); }
+  else { erro(); toast('Acertou '+ok+' de '+itens.length+'. Ajeite os vermelhos!'); }
+}
+
+/* ===== COMPLETAR ===== */
+function montarComp(){
+  const banco=document.getElementById('compBanco'), frases=document.getElementById('compFrases'); banco.innerHTML=''; frases.innerHTML='';
+  embaralhar(COMPLETAR.map(c=>c[1])).forEach(p=>{ const s=document.createElement('span'); s.textContent=p; banco.appendChild(s); });
+  COMPLETAR.forEach(c=>{ const div=document.createElement('div'); div.className='comp-frase'; div.innerHTML=c[0].replace('___','<input data-r="'+c[1]+'" placeholder="?">'); frases.appendChild(div); });
+}
+function conferirComp(){
+  let ok=0; const ins=document.querySelectorAll('#compFrases input');
+  ins.forEach(inp=>{ const certo=norm(inp.value)===norm(inp.dataset.r); inp.classList.toggle('ok',certo); inp.classList.toggle('no',!certo); if(certo)ok++; });
+  if(ok===ins.length){ acerto(20); toast('🏆 Completou tudo! +20 XP'); festa('completar'); } else { erro(); toast('Acertou '+ok+' de '+ins.length+'. Tente os vermelhos!'); }
+}
+
+/* ===== CAÇA-PALAVRAS ===== */
+let cpGrid=[], cpTam=11, cpSel=[], cpAchou=[], cpDown=false;
+function montarCaca(){
+  cpTam=11; cpAchou=[]; cpGrid=Array.from({length:cpTam},()=>Array(cpTam).fill(''));
+  const dirs=[[0,1],[1,0],[1,1],[-1,1]];
+  CACA_PALAVRAS.forEach(p=>{
+    let posto=false,t=0;
+    while(!posto&&t<300){ t++; const d=dirs[Math.floor(Math.random()*dirs.length)];
+      const r0=Math.floor(Math.random()*cpTam), c0=Math.floor(Math.random()*cpTam);
+      const rf=r0+d[0]*(p.length-1), cf=c0+d[1]*(p.length-1);
+      if(rf<0||rf>=cpTam||cf<0||cf>=cpTam)continue;
+      let ok=true; for(let k=0;k<p.length;k++){ const r=r0+d[0]*k,c=c0+d[1]*k; if(cpGrid[r][c]&&cpGrid[r][c]!==p[k]){ok=false;break;} }
+      if(!ok)continue; for(let k=0;k<p.length;k++){ const r=r0+d[0]*k,c=c0+d[1]*k; cpGrid[r][c]=p[k]; } posto=true;
+    }
+  });
+  const L="ABCDEFGHIJLMNOPRSTUV";
+  for(let r=0;r<cpTam;r++)for(let c=0;c<cpTam;c++)if(!cpGrid[r][c])cpGrid[r][c]=L[Math.floor(Math.random()*L.length)];
+  renderCaca();
+}
+function renderCaca(){
+  const g=document.getElementById('cacaGrid'); g.style.gridTemplateColumns='repeat('+cpTam+',auto)'; g.innerHTML='';
+  for(let r=0;r<cpTam;r++)for(let c=0;c<cpTam;c++){
+    const d=document.createElement('div'); d.className='cp-cel'; d.textContent=cpGrid[r][c]; d.dataset.r=r; d.dataset.c=c;
+    d.addEventListener('pointerdown',e=>{e.preventDefault();cpDown=true;cpSel=[d];d.classList.add('sel')});
+    d.addEventListener('pointerenter',()=>{if(cpDown){cpSel.push(d);d.classList.add('sel')}});
+    g.appendChild(d);
+  }
+  const lst=document.getElementById('cacaLista'); lst.innerHTML='';
+  CACA_PALAVRAS.forEach(p=>{ const s=document.createElement('span'); s.textContent=p; s.dataset.p=p; if(cpAchou.includes(p))s.classList.add('done'); lst.appendChild(s); });
+}
+document.addEventListener('pointerup',()=>{ if(cpDown){cpDown=false;fimCaca();} });
+function fimCaca(){
+  const txt=cpSel.map(d=>d.textContent).join(''); const rev=cpSel.map(d=>d.textContent).reverse().join('');
+  const achou=CACA_PALAVRAS.find(p=>(p===txt||p===rev)&&!cpAchou.includes(p));
+  if(achou){ cpAchou.push(achou); cpSel.forEach(d=>{d.classList.remove('sel');d.classList.add('found')}); document.querySelector('#cacaLista span[data-p="'+achou+'"]').classList.add('done'); acerto(10); toast('🔍 Achou: '+achou+'! +10 XP'); if(cpAchou.length===CACA_PALAVRAS.length){ toast('🏆 Achou todas!'); festa('caca'); } }
+  else { cpSel.forEach(d=>{ if(!d.classList.contains('found'))d.classList.remove('sel'); }); }
+  cpSel=[];
+}
+
+/* ===== CRUZADINHA ===== */
+function montarCruz(){
+  let maxR=0,maxC=0;
+  CRUZ.forEach(w=>{ const len=w.palavra.length; maxR=Math.max(maxR, w.dir==='V'?w.r+len:w.r+1); maxC=Math.max(maxC, w.dir==='H'?w.c+len:w.c+1); });
+  const g=document.getElementById('cruzGrid'); g.style.gridTemplateColumns='repeat('+maxC+',auto)'; g.innerHTML='';
+  const cels={}; CRUZ.forEach(w=>{ for(let k=0;k<w.palavra.length;k++){ const r=w.dir==='V'?w.r+k:w.r, c=w.dir==='H'?w.c+k:w.c; const key=r+'_'+c; if(!cels[key])cels[key]={letra:w.palavra[k]}; } });
+  const numAt={}; let n=1; CRUZ.forEach(w=>{ const key=w.r+'_'+w.c; if(!numAt[key])numAt[key]=n++; w.num=numAt[key]; });
+  for(let r=0;r<maxR;r++)for(let c=0;c<maxC;c++){
+    const cel=document.createElement('div'); cel.className='cz-cel'; const key=r+'_'+c;
+    if(cels[key]){ cel.classList.add('ativa');
+      if(numAt[key]){ const s=document.createElement('span'); s.className='cz-num'; s.textContent=numAt[key]; cel.appendChild(s); }
+      const inp=document.createElement('input'); inp.maxLength=1; inp.dataset.l=cels[key].letra; inp.addEventListener('input',()=>{inp.value=inp.value.toUpperCase();}); cel.appendChild(inp);
+    }
+    g.appendChild(cel);
+  }
+  const H=document.getElementById('cruzH'), V=document.getElementById('cruzV'); H.innerHTML=''; V.innerHTML='';
+  CRUZ.forEach(w=>{ const li=document.createElement('li'); li.textContent=w.num+'. '+w.dica+' ('+w.palavra.length+' letras)'; (w.dir==='H'?H:V).appendChild(li); });
+}
+function conferirCruz(){
+  let ok=0,tot=0; document.querySelectorAll('#cruzGrid input').forEach(inp=>{ tot++; const certo=norm(inp.value)===norm(inp.dataset.l); inp.classList.toggle('ok',certo); if(certo)ok++; });
+  if(ok===tot){ acerto(30); toast('🏆 Cruzadinha completa! +30 XP'); festa('cruz'); } else { erro(); toast('Você tem '+ok+' de '+tot+' letras certas. Continue!'); }
+}
+
+/* ===== MEMÓRIA ===== */
+let memViradas=[], memTrava=false, memMov=0, memPares=0;
+function montarMemoria(){
+  memViradas=[]; memTrava=false; memMov=0; memPares=0; document.getElementById('memMov').textContent='Jogadas: 0';
+  const cartas=[]; MEMORIA.forEach((m,i)=>{ cartas.push({id:i,face:m[0]}); cartas.push({id:i,face:m[1]}); }); embaralhar(cartas);
+  const g=document.getElementById('memGrid'); g.innerHTML='';
+  cartas.forEach(ct=>{ const d=document.createElement('div'); d.className='mem-card'; d.dataset.id=ct.id; d.innerHTML='<div class="mem-inner"><div class="mem-f">?</div><div class="mem-b">'+ct.face+'</div></div>'; d.onclick=()=>viraMem(d); g.appendChild(d); });
+}
+function viraMem(d){
+  if(memTrava||d.classList.contains('flip')||d.classList.contains('match'))return;
+  d.classList.add('flip'); memViradas.push(d);
+  if(memViradas.length===2){
+    memMov++; document.getElementById('memMov').textContent='Jogadas: '+memMov; memTrava=true; const [a,b]=memViradas;
+    if(a.dataset.id===b.dataset.id){ setTimeout(()=>{a.classList.add('match');b.classList.add('match');memViradas=[];memTrava=false;memPares++;acerto(8); if(memPares===MEMORIA.length){toast('🏆 Achou todos os pares em '+memMov+' jogadas!');festa('memoria');}},500); }
+    else { setTimeout(()=>{a.classList.remove('flip');b.classList.remove('flip');memViradas=[];memTrava=false;},800); }
+  }
+}
+
+/* ===== DESAFIO FARAÓ ===== */
+let faOrdem=[], faIdx=0, faAcertos=0, faResp=false;
+function montarFarao(){ faOrdem=embaralhar(FARAO.map((_,i)=>i)); faIdx=0; faAcertos=0; renderFarao(); }
+function renderFarao(){
+  faResp=false; const q=FARAO[faOrdem[faIdx]];
+  document.getElementById('faraoProg').style.width=(faIdx/faOrdem.length*100)+'%';
+  document.getElementById('fPergunta').textContent='('+(faIdx+1)+'/'+faOrdem.length+') '+q[0];
+  const box=document.getElementById('fOpts'); box.innerHTML='';
+  embaralhar(q[1].map((_,i)=>i)).forEach(oi=>{ const b=document.createElement('button'); b.className='q-opt'; b.textContent=q[1][oi]; b.onclick=()=>responderFarao(b,oi===q[2],q); box.appendChild(b); });
+  document.getElementById('fFeedback').className='q-feedback'; document.getElementById('fProx').style.display='none';
+}
+function responderFarao(btn,certo,q){
+  if(faResp)return; faResp=true; const fb=document.getElementById('fFeedback');
+  document.querySelectorAll('#fOpts .q-opt').forEach(b=>{ if(b.textContent===q[1][q[2]])b.classList.add('certo'); b.style.pointerEvents='none'; });
+  if(certo){ btn.classList.add('certo'); faAcertos++; acerto(20); fb.textContent='💎 Excelente! +20 XP'; fb.className='q-feedback show bom'; }
+  else{ btn.classList.add('errado'); erro(); fb.textContent='🤔 A certa é: '+q[1][q[2]]; fb.className='q-feedback show ruim'; }
+  document.getElementById('fProx').style.display='inline-block';
+}
+function proxFarao(){
+  if(faIdx<faOrdem.length-1){ faIdx++; renderFarao(); }
+  else{ const pct=Math.round(faAcertos/faOrdem.length*100);
+    document.getElementById('faraoBox').innerHTML='<div class="resultado"><div class="big">'+(pct>=75?'👑':'💪')+'</div><h3>Desafio Faraó: '+faAcertos+'/'+faOrdem.length+'</h3><p>'+(pct>=75?'Você é uma faraó do conhecimento!':'Cabeçudo! Tente mais uma vez.')+'</p><button class="btn ouro" onclick="resetFarao()">🔄 De novo</button></div>';
+    ganharSticker('farao'); if(pct>=75){confete();sfx('win');}
+  }
+}
+function resetFarao(){
+  document.getElementById('faraoBox').innerHTML='<h2>👑 Desafio Faraó (nível difícil)</h2><p class="mini-tip">Cada acerto vale XP em dobro! 💎</p><div class="barra-prog"><div id="faraoProg"></div></div><div class="q-card" id="fPergunta"></div><div class="q-opts" id="fOpts"></div><div class="q-feedback" id="fFeedback"></div><div class="centro" style="margin-top:14px"><button class="btn ouro" id="fProx" onclick="proxFarao()" style="display:none">Próxima ➡️</button></div>';
+  montarFarao();
+}
+
+/* ===== UTILS ===== */
+function embaralhar(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function norm(s){ return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+
+/* ===== INICIALIZA ===== */
+carregar(); atualizarHUD(); montarFlash(); montarQuiz(); montarLigar(); montarTempo(); montarComp(); montarCaca(); montarCruz(); montarMemoria(); montarFarao();
+fazerEstrelas(); setupReveal(); renderAlbum();
+</script>
+</body>
+</html>
