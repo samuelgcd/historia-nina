@@ -1163,7 +1163,8 @@ function montarCruz(){
   CRUZ.forEach(w=>{ const len=w.palavra.length; maxR=Math.max(maxR, w.dir==='V'?w.r+len:w.r+1); maxC=Math.max(maxC, w.dir==='H'?w.c+len:w.c+1); });
   const g=document.getElementById('cruzGrid'); g.style.gridTemplateColumns='repeat('+maxC+',auto)'; g.innerHTML='';
   const cels={}; CRUZ.forEach(w=>{ for(let k=0;k<w.palavra.length;k++){ const r=w.dir==='V'?w.r+k:w.r, c=w.dir==='H'?w.c+k:w.c; const key=r+'_'+c; if(!cels[key])cels[key]={letra:w.palavra[k]}; } });
-  const numAt={}; let n=1; CRUZ.forEach(w=>{ const key=w.r+'_'+w.c; if(!numAt[key])numAt[key]=n++; w.num=numAt[key]; });
+  const starts=[...new Set(CRUZ.map(w=>w.r+'_'+w.c))].sort((a,b)=>{const A=a.split('_').map(Number),B=b.split('_').map(Number);return A[0]-B[0]||A[1]-B[1];});
+  const numAt={}; starts.forEach((k,i)=>numAt[k]=i+1); CRUZ.forEach(w=>{ w.num=numAt[w.r+'_'+w.c]; });
   const inpMap={};
   for(let r=0;r<maxR;r++)for(let c=0;c<maxC;c++){
     const cel=document.createElement('div'); cel.className='cz-cel'; const key=r+'_'+c;
