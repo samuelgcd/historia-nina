@@ -170,13 +170,16 @@
 
   /* ---------- LINHA DO TEMPO (numerar) ---------- */
   .lt-lista{display:flex;flex-direction:column;gap:10px}
-  .lt-item{background:#fff8ec;border:3px solid #f1dcae;border-radius:16px;padding:12px 14px;display:flex;gap:12px;align-items:center;font-weight:800;font-size:.97rem}
-  .lt-inp{width:54px;height:54px;flex:0 0 auto;text-align:center;font-family:var(--tit);font-size:1.5rem;border:3px solid var(--duna);border-radius:14px;background:#fff;color:var(--roxo)}
-  .lt-inp:focus{outline:none;border-color:var(--turquesa);box-shadow:0 0 0 4px rgba(19,179,156,.2)}
-  .lt-item.ok{background:linear-gradient(120deg,#cdf3d5,#a5ecb8)}
-  .lt-item.ok .lt-inp{border-color:var(--verde);background:#e7fbec}
-  .lt-item.no .lt-inp{border-color:var(--vermelho);background:#ffeceb}
-  .lt-emoji{font-size:1.5rem}
+  .lt-item{background:#fff8ec;border:3px solid #f1dcae;border-radius:16px;padding:12px 14px;display:flex;gap:12px;align-items:center;font-weight:800;font-size:.97rem;cursor:pointer;transition:transform .12s,background .2s,border-color .2s;user-select:none}
+  .lt-item:hover{transform:translateX(3px)}
+  .lt-item:active{transform:scale(.98)}
+  .lt-badge{width:42px;height:42px;flex:0 0 auto;display:none;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--verde),#2e9c5a);color:#fff;font-family:var(--tit);font-size:1.4rem;border-radius:50%;box-shadow:var(--sombra-sm)}
+  .lt-badge.show{display:flex;animation:badgepop .45s cubic-bezier(.2,.9,.25,1.4)}
+  @keyframes badgepop{0%{transform:scale(0) rotate(-30deg)}100%{transform:none}}
+  .lt-item.ok{background:linear-gradient(120deg,#cdf3d5,#a5ecb8);border-color:var(--verde);cursor:default}
+  .lt-item.ok:hover{transform:none}
+  .lt-item.no{animation:treme .4s;border-color:var(--vermelho);background:#ffeceb}
+  .lt-hint{text-align:center;font-family:var(--tit);color:var(--roxo);background:linear-gradient(120deg,#fff3c4,#ffe2a0);border-radius:14px;padding:10px;margin-bottom:12px;font-size:1rem}
 
   /* ---------- COMPLETAR ---------- */
   .comp-frase{font-size:1.08rem;line-height:2.1;margin-bottom:8px}
@@ -682,12 +685,12 @@
   <!-- ====================== LINHA DO TEMPO ====================== -->
   <section class="tela" id="tempo">
     <div class="cartao">
-      <h2>Numere a ordem certa</h2>
-      <p class="mini-tip">Escreva no quadradinho o número de cada acontecimento, do mais antigo (1) ao mais novo (8). Depois clique em Conferir!</p>
+      <h2>Linha do Tempo</h2>
+      <p class="mini-tip">Toque nos acontecimentos na ordem certa, do mais antigo ao mais novo. Cada acerto fica verde e ganha o número!</p>
+      <div class="lt-hint" id="ltHint"></div>
       <div class="lt-lista" id="ltLista"></div>
       <div class="centro" style="margin-top:14px">
-        <button class="btn" onclick="conferirTempo()">Conferir</button>
-        <button class="btn sec" onclick="montarTempo()">Limpar</button>
+        <button class="btn sec" onclick="montarTempo()">Recomeçar</button>
       </div>
     </div>
   </section>
@@ -1081,29 +1084,34 @@ function clicaLigar(el){
 }
 
 /* ===== LINHA DO TEMPO (numerar) ===== */
-let ltShuf=[];
-function montarTempo(){
-  ltShuf=embaralhar(TEMPO.map((_,i)=>i));
-  while(ltShuf.every((v,i)=>TEMPO[v][2]===i+1)) ltShuf=embaralhar(TEMPO.map((_,i)=>i));
-  renderTempo();
+let ltShuf=[], ltNext=1, ltDone=0;
+const ORD=['1º','2º','3º','4º','5º','6º','7º','8º','9º','10º'];
+function montarTempo(){ ltShuf=embaralhar(TEMPO.map((_,i)=>i)); ltNext=1; ltDone=0; renderTempo(); ltHintUpd(); }
+function ltHintUpd(){
+  const h=document.getElementById('ltHint'); if(!h)return;
+  if(ltDone>=TEMPO.length) h.textContent='Você montou toda a linha do tempo!';
+  else if(ltNext===1) h.textContent='Toque no acontecimento MAIS ANTIGO';
+  else h.textContent='Boa! Agora toque no '+ORD[ltNext-1]+' acontecimento';
 }
 function renderTempo(){
   const L=document.getElementById('ltLista'); L.innerHTML='';
   ltShuf.forEach(id=>{
-    const d=document.createElement('div'); d.className='lt-item';
-    d.innerHTML='<input class="lt-inp" type="number" min="1" max="'+TEMPO.length+'" inputmode="numeric" data-correct="'+TEMPO[id][2]+'">'+
-      '<img class="lt-img" src="'+CHARIMG[TEMPO[id][0]]+'"><span>'+TEMPO[id][1]+'</span>';
+    const d=document.createElement('div'); d.className='lt-item'; d.dataset.order=TEMPO[id][2];
+    d.innerHTML='<span class="lt-badge"></span><img class="lt-img" src="'+CHARIMG[TEMPO[id][0]]+'"><span>'+TEMPO[id][1]+'</span>';
+    d.addEventListener('click',()=>clicaTempo(d));
     L.appendChild(d);
   });
 }
-function conferirTempo(){
-  let ok=0; const itens=document.querySelectorAll('#ltLista .lt-item');
-  itens.forEach(it=>{
-    const inp=it.querySelector('.lt-inp'); const certo=parseInt(inp.value,10)===parseInt(inp.dataset.correct,10);
-    it.classList.toggle('ok',certo); it.classList.toggle('no',!certo); if(certo)ok++;
-  });
-  if(ok===itens.length){ acerto(25); toast(' Linha do tempo perfeita! +25 XP'); festa('tempo'); }
-  else { erro(); toast('Acertou '+ok+' de '+itens.length+'. Ajeite os vermelhos!'); }
+function clicaTempo(d){
+  if(d.classList.contains('ok'))return;
+  const order=parseInt(d.dataset.order,10);
+  if(order===ltNext){
+    d.classList.add('ok'); const b=d.querySelector('.lt-badge'); b.textContent=ltNext; b.classList.add('show');
+    acerto(8); ltNext++; ltDone++; ltHintUpd();
+    if(ltDone===TEMPO.length){ toast('Linha do tempo perfeita!'); festa('tempo'); }
+  } else {
+    d.classList.add('no'); setTimeout(()=>d.classList.remove('no'),450); erro(); mascoteFala('Quase! Pensa: qual veio ANTES?','triste');
+  }
 }
 
 /* ===== COMPLETAR ===== */
