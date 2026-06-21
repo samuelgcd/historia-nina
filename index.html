@@ -206,7 +206,7 @@
   .cz-cel input.ok{background:#bff0c8}
   .cz-cel .cz-num{position:absolute;top:0;left:2px;font-size:.5rem;color:var(--duna-esc);font-weight:800}
   .cz-dicas{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
-  .cz-dicas ol{padding-left:20px;margin:4px 0}
+  .cz-dicas ol{list-style:none;padding-left:4px;margin:4px 0}
   .cz-dicas li{font-size:.86rem;margin-bottom:5px}
   .cz-dicas h4{margin:0;color:var(--roxo);font-family:var(--tit)}
 
@@ -1177,7 +1177,7 @@ function montarCruz(){
     g.appendChild(cel);
   }
   const H=document.getElementById('cruzH'), V=document.getElementById('cruzV'); H.innerHTML=''; V.innerHTML='';
-  CRUZ.forEach(w=>{ const li=document.createElement('li'); li.textContent=w.num+'. '+w.dica+' ('+w.palavra.length+' letras)'; (w.dir==='H'?H:V).appendChild(li); });
+  CRUZ.slice().sort((a,b)=>a.num-b.num).forEach(w=>{ const li=document.createElement('li'); li.textContent=w.num+'. '+w.dica+' ('+w.palavra.length+' letras)'; (w.dir==='H'?H:V).appendChild(li); });
 }
 function conferirCruz(){
   let ok=0,tot=0; document.querySelectorAll('#cruzGrid input').forEach(inp=>{ tot++; const certo=norm(inp.value)===norm(inp.dataset.l); inp.classList.toggle('ok',certo); if(certo)ok++; });
