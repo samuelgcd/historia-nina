@@ -978,12 +978,14 @@ const COMPLETAR=[
 ];
 const CACA_PALAVRAS=["ABRAAO","MOISES","DAVI","SALOMAO","CANAA","ISRAEL","JUDA","SAUL","TEMPLO","DESERTO"];
 const CRUZ=[
-  {palavra:"MOISES", dica:"Libertou o povo do Egito", dir:"H", r:2, c:0},
-  {palavra:"SALOMAO", dica:"Rei sábio que construiu o Templo", dir:"H", r:6, c:1},
-  {palavra:"CANAA", dica:"O nome da Terra Prometida", dir:"H", r:9, c:2},
-  {palavra:"ABRAAO", dica:"Saiu de Ur rumo a Canaã", dir:"V", r:0, c:4},
-  {palavra:"DAVI", dica:"Venceu o gigante Golias", dir:"V", r:2, c:2},
-  {palavra:"SAUL", dica:"Primeiro rei de Israel", dir:"V", r:6, c:1},
+  {palavra:"ISRAEL", dica:"Novo nome de Jacó e do povo", dir:"H", r:3, c:4},
+  {palavra:"TEMPLO", dica:"Casa de Deus construída em Jerusalém", dir:"V", r:2, c:8},
+  {palavra:"ABRAAO", dica:"Saiu de Ur rumo a Canaã", dir:"V", r:1, c:6},
+  {palavra:"CANAA", dica:"O nome da Terra Prometida", dir:"H", r:1, c:3},
+  {palavra:"SALOMAO", dica:"Rei sábio que pediu sabedoria e construiu o Templo", dir:"H", r:6, c:0},
+  {palavra:"DAVI", dica:"Jovem pastor que venceu o gigante Golias", dir:"V", r:0, c:4},
+  {palavra:"MOISES", dica:"Libertou o povo da escravidão no Egito", dir:"V", r:6, c:4},
+  {palavra:"SAUL", dica:"O primeiro rei de Israel", dir:"V", r:6, c:0}
 ];
 const MEMORIA=[
   ["char_abraao","Abraão","Saiu de Ur rumo a Canaã"],
@@ -1114,18 +1116,23 @@ function conferirComp(){
 /* ===== CAÇA-PALAVRAS ===== */
 let cpGrid=[], cpTam=11, cpSel=[], cpAchou=[], cpDown=false;
 function montarCaca(){
-  cpTam=11; cpAchou=[]; cpGrid=Array.from({length:cpTam},()=>Array(cpTam).fill(''));
+  cpTam=11; cpAchou=[];
   const dirs=[[0,1],[1,0],[1,1],[-1,1]];
-  CACA_PALAVRAS.forEach(p=>{
-    let posto=false,t=0;
-    while(!posto&&t<300){ t++; const d=dirs[Math.floor(Math.random()*dirs.length)];
-      const r0=Math.floor(Math.random()*cpTam), c0=Math.floor(Math.random()*cpTam);
-      const rf=r0+d[0]*(p.length-1), cf=c0+d[1]*(p.length-1);
-      if(rf<0||rf>=cpTam||cf<0||cf>=cpTam)continue;
-      let ok=true; for(let k=0;k<p.length;k++){ const r=r0+d[0]*k,c=c0+d[1]*k; if(cpGrid[r][c]&&cpGrid[r][c]!==p[k]){ok=false;break;} }
-      if(!ok)continue; for(let k=0;k<p.length;k++){ const r=r0+d[0]*k,c=c0+d[1]*k; cpGrid[r][c]=p[k]; } posto=true;
+  let attempt=0, todas=false;
+  while(!todas && attempt<60){
+    attempt++; cpGrid=Array.from({length:cpTam},()=>Array(cpTam).fill('')); let posIdx=0;
+    for(const p of CACA_PALAVRAS){
+      let posto=false,t=0;
+      while(!posto&&t<400){ t++; const d=dirs[Math.floor(Math.random()*dirs.length)];
+        const r0=Math.floor(Math.random()*cpTam), c0=Math.floor(Math.random()*cpTam);
+        const rf=r0+d[0]*(p.length-1), cf=c0+d[1]*(p.length-1);
+        if(rf<0||rf>=cpTam||cf<0||cf>=cpTam)continue;
+        let ok=true; for(let k=0;k<p.length;k++){ const r=r0+d[0]*k,c=c0+d[1]*k; if(cpGrid[r][c]&&cpGrid[r][c]!==p[k]){ok=false;break;} }
+        if(!ok)continue; for(let k=0;k<p.length;k++){ const r=r0+d[0]*k,c=c0+d[1]*k; cpGrid[r][c]=p[k]; } posto=true; posIdx++;
+      }
     }
-  });
+    todas = (posIdx===CACA_PALAVRAS.length);
+  }
   const L="ABCDEFGHIJLMNOPRSTUV";
   for(let r=0;r<cpTam;r++)for(let c=0;c<cpTam;c++)if(!cpGrid[r][c])cpGrid[r][c]=L[Math.floor(Math.random()*L.length)];
   renderCaca();
@@ -1163,13 +1170,12 @@ function montarCruz(){
     if(cels[key]){ cel.classList.add('ativa');
       if(numAt[key]){ const s=document.createElement('span'); s.className='cz-num'; s.textContent=numAt[key]; cel.appendChild(s); }
       const inp=document.createElement('input'); inp.maxLength=1; inp.inputMode='text'; inp.setAttribute('autocapitalize','characters'); inp.autocomplete='off'; inp.dataset.l=cels[key].letra;
-      inp.addEventListener('input',()=>{ inp.value=inp.value.toUpperCase().slice(0,1); if(inp.value&&inp._next)inp._next.focus(); });
+      inp.addEventListener('input',()=>{ inp.value=inp.value.toUpperCase().slice(0,1); });
       inp.addEventListener('focus',()=>{ setTimeout(()=>{try{inp.select();}catch(_){}}, 0); });
       inpMap[key]=inp; cel.appendChild(inp);
     }
     g.appendChild(cel);
   }
-  CRUZ.forEach(w=>{ for(let k=0;k<w.palavra.length-1;k++){ const r=w.dir==='V'?w.r+k:w.r, c=w.dir==='H'?w.c+k:w.c; const nr=w.dir==='V'?w.r+k+1:w.r, nc=w.dir==='H'?w.c+k+1:w.c; const a=inpMap[r+'_'+c], b=inpMap[nr+'_'+nc]; if(a&&b)a._next=b; } });
   const H=document.getElementById('cruzH'), V=document.getElementById('cruzV'); H.innerHTML=''; V.innerHTML='';
   CRUZ.forEach(w=>{ const li=document.createElement('li'); li.textContent=w.num+'. '+w.dica+' ('+w.palavra.length+' letras)'; (w.dir==='H'?H:V).appendChild(li); });
 }
