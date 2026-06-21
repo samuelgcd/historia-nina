@@ -297,6 +297,8 @@
   #guia .dunni{font-size:2.7rem;filter:drop-shadow(0 7px 9px rgba(120,70,20,.35));transition:transform .3s;cursor:pointer;pointer-events:auto}
   #guia.feliz .dunni{animation:pulo .6s}
   #guia.triste .dunni{animation:nego .5s}
+  #guia.talking .dunni{animation:talk .45s ease-in-out infinite}
+  @keyframes talk{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(-4deg)}}
   @keyframes pulo{0%,100%{transform:translateY(0)}40%{transform:translateY(-20px) scale(1.16) rotate(-6deg)}}
   @keyframes nego{0%,100%{transform:rotate(0)}25%{transform:rotate(-13deg)}75%{transform:rotate(13deg)}}
   @media(max-width:560px){ #guia .dunni{font-size:2.2rem} #guia .balao{max-width:150px;font-size:.78rem} }
@@ -309,7 +311,7 @@
 
   /* ====== DELIGHT v2 ====== */
   /* botão de som no HUD */
-  .sombtn{background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.45);color:#fff;width:40px;height:34px;border-radius:14px;cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center;transition:.15s}
+  .sombtn{background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.45);color:#fff;min-width:46px;padding:0 9px;height:32px;border-radius:14px;cursor:pointer;font-family:var(--tit);font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:.15s}
   .sombtn:active{transform:scale(.9)}
 
   /* +XP flutuante */
@@ -819,8 +821,8 @@ function mascoteFala(msg,mood){
   clearTimeout(_balaoT); _balaoT=setTimeout(()=>b.classList.remove('show'),2600);
 }
 const DUNNI_TIPS=["Estude um pouco e depois jogue pra fixar! ","Dica: no quiz, leia tudo antes de escolher ","Você está indo super bem! ","Tenta o Desafio Faraó pra ganhar XP em dobro ","Lembrar sem olhar gruda mais na memória "];
-function dunniOi(){ hapt(10); mascoteFala(DUNNI_TIPS[Math.floor(Math.random()*DUNNI_TIPS.length)],'feliz'); }
-function fecharSplash(){ const s=document.getElementById('splash'); if(s)s.classList.add('hide'); initAudio(); hapt(15); setTimeout(()=>mascoteFala('Oi! Eu sou o Dunni  Toque em mim quando quiser uma dica!','feliz'),700); }
+function dunniOi(){ hapt(10); falar('oi', DUNNI_TIPS[Math.floor(Math.random()*DUNNI_TIPS.length)],'feliz'); }
+function fecharSplash(){ const s=document.getElementById('splash'); if(s)s.classList.add('hide'); initAudio(); hapt(15); falar('welcome','Oi! Eu sou o Dunni! Vem comigo nessa aventura. Toque em mim quando quiser uma dica.','feliz'); }
 function fazerEstrelas(){ const e=document.getElementById('estrelas'); if(!e)return; for(let i=0;i<26;i++){ const s=document.createElement('span'); s.className='estrela'; s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%'; s.style.transform='scale('+(.5+Math.random()*1.3)+')'; s.style.animationDelay=(Math.random()*2.5)+'s'; e.appendChild(s); } }
 function addRipple(b,e){ const r=document.createElement('span'); r.className='ripple'; const rect=b.getBoundingClientRect(); const size=Math.max(rect.width,rect.height); r.style.width=r.style.height=size+'px'; const x=(e.clientX||rect.left+rect.width/2)-rect.left-size/2; const y=(e.clientY||rect.top+rect.height/2)-rect.top-size/2; r.style.left=x+'px'; r.style.top=y+'px'; b.appendChild(r); setTimeout(()=>r.remove(),600); }
 document.addEventListener('click',e=>{ const b=e.target.closest('.btn'); if(b)addRipple(b,e); });
@@ -845,7 +847,10 @@ function sfx(kind){
   else if(kind==='level'){ [523,659,784,1046,1318].forEach((f,i)=>tone(f,.26,'square',.12,i*.09)); }
   else if(kind==='win'){ [659,784,988,1318].forEach((f,i)=>tone(f,.22,'triangle',.17,i*.08)); }
 }
-function toggleSom(){ SOM=!SOM; document.getElementById('sombtn').textContent=SOM?'':''; if(SOM){initAudio();sfx('tap');} salvar(); }
+function toggleSom(){ SOM=!SOM; document.getElementById('sombtn').textContent=SOM?'SOM':'MUDO'; if(SOM){initAudio();sfx('tap');} else if(curVoz){curVoz.pause();} salvar(); }
+const VOZ={welcome:'historia_img/voz_welcome.mp3',figurinha:'historia_img/voz_figurinha.mp3',album:'historia_img/voz_album.mp3',oi:'historia_img/voz_oi.mp3'};
+let curVoz=null;
+function falar(key,texto,mood){ if(texto) mascoteFala(texto,mood||'feliz'); if(!SOM||!VOZ[key])return; try{ if(curVoz)curVoz.pause(); curVoz=new Audio(VOZ[key]); const g=document.getElementById('guia'); if(g)g.classList.add('talking'); const stop=()=>{ if(g)g.classList.remove('talking'); }; curVoz.onended=stop; curVoz.onpause=stop; curVoz.play().catch(stop); }catch(e){} }
 
 /* ===== +XP flutuante / flash de tela ===== */
 function flutuaXP(n){ const el=document.createElement('div'); el.className='floatxp'; el.textContent='+'+n+' XP'; const x=window._lx||window.innerWidth/2, y=window._ly||(window.innerHeight*0.4); el.style.left=x+'px'; el.style.top=y+'px'; document.body.appendChild(el); el.animate([{transform:'translate(-50%,-50%) scale(.6)',opacity:0},{transform:'translate(-50%,-130%) scale(1.15)',opacity:1,offset:.3},{transform:'translate(-50%,-260%) scale(1)',opacity:0}],{duration:1100,easing:'cubic-bezier(.2,.8,.2,1)'}); setTimeout(()=>el.remove(),1160); }
@@ -875,9 +880,10 @@ const STICKERS=[
 let STK=[];
 function ganharSticker(id){
   if(STK.includes(id))return; STK.push(id); salvar(); renderAlbum();
-  flashTela(); confete(); sfx('sticker'); hapt([20,30,20]);
+  flashTela(); confete(); hapt([20,30,20]);
   const s=STICKERS.find(x=>x.id===id);
-  abrirModal('<img class="modal-img" src="'+CHARIMG[s.img]+'">','Nova figurinha! ','<div class="rank-nome">'+s.n+'</div><p>Foi direto pro seu álbum </p>');
+  abrirModal('<img class="modal-img" src="'+CHARIMG[s.img]+'">','Nova figurinha!','<div class="rank-nome">'+s.n+'</div><p>Foi direto pro seu álbum</p>');
+  falar(id==='lenda'?'album':'figurinha','','feliz');
   const completou=STICKERS.filter(x=>x.id!=='lenda').every(x=>STK.includes(x.id));
   if(completou && !STK.includes('lenda')) setTimeout(()=>ganharSticker('lenda'),1400);
 }
@@ -890,7 +896,7 @@ function festa(id){ confete(); sfx('win'); flashTela(); if(id)ganharSticker(id);
 
 /* ===== SALVAR / CARREGAR (localStorage) ===== */
 function salvar(){ try{ localStorage.setItem('nina_hebreu', JSON.stringify({XP,NIVEL,STK,SOM})); }catch(e){} }
-function carregar(){ try{ const d=JSON.parse(localStorage.getItem('nina_hebreu')); if(d){ XP=d.XP||0; NIVEL=d.NIVEL||1; STK=d.STK||[]; SOM=d.SOM!==false; } }catch(e){} const sb=document.getElementById('sombtn'); if(sb)sb.textContent=SOM?'':''; }
+function carregar(){ try{ const d=JSON.parse(localStorage.getItem('nina_hebreu')); if(d){ XP=d.XP||0; NIVEL=d.NIVEL||1; STK=d.STK||[]; SOM=d.SOM!==false; } }catch(e){} const sb=document.getElementById('sombtn'); if(sb)sb.textContent=SOM?'SOM':'MUDO'; }
 
 function toast(msg){ const t=document.getElementById('toast'); t.innerHTML=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200); }
 function confete(){
