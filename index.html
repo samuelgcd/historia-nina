@@ -201,7 +201,7 @@
   #cruzGrid{display:grid;gap:2px;margin:10px auto;background:var(--duna);padding:5px;border-radius:10px}
   .cz-cel{width:clamp(26px,8vw,34px);height:clamp(26px,8vw,34px);position:relative;background:#3a2a12;border-radius:3px}
   .cz-cel.ativa{background:#fff8ec}
-  .cz-cel input{width:100%;height:100%;border:none;background:transparent;text-align:center;font-family:var(--tit);font-size:clamp(.85rem,3vw,1.05rem);text-transform:uppercase;color:var(--roxo);padding:0}
+  .cz-cel input{width:100%;height:100%;border:none;background:transparent;text-align:center;font-family:var(--tit);font-size:16px;text-transform:uppercase;color:var(--roxo);padding:0}
   .cz-cel input:focus{outline:2px solid var(--turquesa);border-radius:3px}
   .cz-cel input.ok{background:#bff0c8}
   .cz-cel .cz-num{position:absolute;top:0;left:2px;font-size:.5rem;color:var(--duna-esc);font-weight:800}
@@ -268,8 +268,8 @@
 
   /* SPLASH de boas-vindas */
   #splash{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;
-    background:radial-gradient(circle at 50% 28%, #ffe9bd 0%, #efc079 52%, #d39a4e 100%);transition:opacity .7s ease,visibility .7s}
-  #splash.hide{opacity:0;visibility:hidden}
+    background:radial-gradient(circle at 50% 28%, #ffe9bd 0%, #efc079 52%, #d39a4e 100%);transition:opacity .6s ease}
+  #splash.hide{opacity:0;visibility:hidden;pointer-events:none}
   #splash .estrelas{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.7}
   #splash .estrelas span{position:absolute;color:#fff;animation:cintila 2.6s ease-in-out infinite}
   @keyframes cintila{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
@@ -1157,14 +1157,19 @@ function montarCruz(){
   const g=document.getElementById('cruzGrid'); g.style.gridTemplateColumns='repeat('+maxC+',auto)'; g.innerHTML='';
   const cels={}; CRUZ.forEach(w=>{ for(let k=0;k<w.palavra.length;k++){ const r=w.dir==='V'?w.r+k:w.r, c=w.dir==='H'?w.c+k:w.c; const key=r+'_'+c; if(!cels[key])cels[key]={letra:w.palavra[k]}; } });
   const numAt={}; let n=1; CRUZ.forEach(w=>{ const key=w.r+'_'+w.c; if(!numAt[key])numAt[key]=n++; w.num=numAt[key]; });
+  const inpMap={};
   for(let r=0;r<maxR;r++)for(let c=0;c<maxC;c++){
     const cel=document.createElement('div'); cel.className='cz-cel'; const key=r+'_'+c;
     if(cels[key]){ cel.classList.add('ativa');
       if(numAt[key]){ const s=document.createElement('span'); s.className='cz-num'; s.textContent=numAt[key]; cel.appendChild(s); }
-      const inp=document.createElement('input'); inp.maxLength=1; inp.dataset.l=cels[key].letra; inp.addEventListener('input',()=>{inp.value=inp.value.toUpperCase();}); cel.appendChild(inp);
+      const inp=document.createElement('input'); inp.maxLength=1; inp.inputMode='text'; inp.setAttribute('autocapitalize','characters'); inp.autocomplete='off'; inp.dataset.l=cels[key].letra;
+      inp.addEventListener('input',()=>{ inp.value=inp.value.toUpperCase().slice(0,1); if(inp.value&&inp._next)inp._next.focus(); });
+      inp.addEventListener('focus',()=>{ setTimeout(()=>{try{inp.select();}catch(_){}}, 0); });
+      inpMap[key]=inp; cel.appendChild(inp);
     }
     g.appendChild(cel);
   }
+  CRUZ.forEach(w=>{ for(let k=0;k<w.palavra.length-1;k++){ const r=w.dir==='V'?w.r+k:w.r, c=w.dir==='H'?w.c+k:w.c; const nr=w.dir==='V'?w.r+k+1:w.r, nc=w.dir==='H'?w.c+k+1:w.c; const a=inpMap[r+'_'+c], b=inpMap[nr+'_'+nc]; if(a&&b)a._next=b; } });
   const H=document.getElementById('cruzH'), V=document.getElementById('cruzV'); H.innerHTML=''; V.innerHTML='';
   CRUZ.forEach(w=>{ const li=document.createElement('li'); li.textContent=w.num+'. '+w.dica+' ('+w.palavra.length+' letras)'; (w.dir==='H'?H:V).appendChild(li); });
 }
