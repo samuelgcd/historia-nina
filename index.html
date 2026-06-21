@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>A Grande Jornada do Povo Hebreu — Estudos da Nina</title>
+<title>A Grande Jornada do Povo Hebreu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -204,10 +204,15 @@
   .cz-cel input{width:100%;height:100%;border:none;background:transparent;text-align:center;font-family:var(--tit);font-size:16px;text-transform:uppercase;color:var(--roxo);padding:0}
   .cz-cel input:focus{outline:2px solid var(--turquesa);border-radius:3px}
   .cz-cel input.ok{background:#bff0c8}
+  .cz-cel.cz-active.ativa{background:#ffe6bd}
+  .cz-cel.cz-cur{outline:3px solid var(--turquesa);outline-offset:-2px;z-index:2;border-radius:4px}
+  .cz-cel.cz-cur input{background:#cdeeff}
   .cz-cel .cz-num{position:absolute;top:0;left:2px;font-size:.5rem;color:var(--duna-esc);font-weight:800}
   .cz-dicas{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
   .cz-dicas ol{list-style:none;padding-left:4px;margin:4px 0}
-  .cz-dicas li{font-size:.86rem;margin-bottom:5px}
+  .cz-dicas li{font-size:.86rem;margin-bottom:5px;cursor:pointer;border-radius:6px;padding:2px 5px;transition:.15s}
+  .cz-dicas li:hover{color:var(--turquesa)}
+  .cz-dicas li.sel{color:#fff;background:var(--turquesa)}
   .cz-dicas h4{margin:0;color:var(--roxo);font-family:var(--tit)}
 
   /* ---------- MEMÓRIA ---------- */
@@ -385,7 +390,7 @@
   <div class="estrelas" id="estrelas"></div>
   <div class="camelo splash-in d1"><img src="historia_img/char_dunni.png" alt="Dunni"></div>
   <h1 class="splash-in d2">A Grande Jornada<br>do Povo Hebreu</h1>
-  <p class="tag splash-in d3">Oi, Nina! Vem comigo de Ur até a Terra Prometida. Estude, jogue e ganhe estrelas! </p>
+  <p class="tag splash-in d3">Vem comigo de Ur até a Terra Prometida. Estude, jogue e ganhe estrelas!</p>
   <button class="btn btn-start splash-in d4" onclick="fecharSplash()">Começar a jornada</button>
 </div>
 
@@ -400,7 +405,7 @@
   <!-- HUD -->
   <div class="hud">
     <span class="mascote" id="mascote"><img src="historia_img/char_dunni.png" alt="Dunni"></span>
-    <span class="nome">Nina exploradora</span>
+    <span class="nome">Dunni</span>
     <div class="xpwrap">
       <div class="xpbar"><div class="xpfill" id="xpfill"></div></div>
       <div class="xptxt" id="xptxt">0 / 100 XP</div>
@@ -794,7 +799,7 @@ function subiuNivel(){
   abrirModal('<img class="modal-img" src="'+CHARIMG[r.img]+'">','Subiu de Nível!','<div class="rank-nome">'+r.nome+'</div><p>Agora você é nível '+NIVEL+'. Continue a jornada!</p>');
   if(NIVEL===3)ganharSticker('escriba'); if(NIVEL===5)ganharSticker('conselheiro');
 }
-const PRAISE=["Mandou bem! ","Isso aí! ","Você é fera! ","Continua assim! ","Boa, Nina! ","Arrasou! "];
+const PRAISE=["Mandou bem! ","Isso aí! ","Você é fera! ","Continua assim! ","Você arrasou! ","Show de bola! "];
 const GENTLE=["Quase! Tenta de novo ","Sem problema, bora! ","Errar faz aprender ","Você consegue! "];
 function acerto(xp=10){ STREAK++; hapt(18); sfx('correct'); flutuaXP(xp); if(STREAK%5===0){toast(' Sequência de '+STREAK+'! Bônus +15 XP');ganharXP(15);} ganharXP(xp); pulaMascote(); mascoteFala(PRAISE[Math.floor(Math.random()*PRAISE.length)],'feliz'); }
 function erro(){ STREAK=0; hapt([12,40,12]); sfx('wrong'); atualizarHUD(); mascoteFala(GENTLE[Math.floor(Math.random()*GENTLE.length)],'triste'); salvar(); }
@@ -1158,6 +1163,17 @@ function fimCaca(){
 }
 
 /* ===== CRUZADINHA ===== */
+let CZWORDS=[], czActive=null;
+function setCur(inp){ document.querySelectorAll('#cruzGrid .cz-cur').forEach(e=>e.classList.remove('cz-cur')); if(inp)inp.parentElement.classList.add('cz-cur'); }
+function selWord(w, idx, focar){
+  if(!w)return;
+  document.querySelectorAll('#cruzGrid .cz-active').forEach(e=>e.classList.remove('cz-active'));
+  document.querySelectorAll('.cz-dicas li.sel').forEach(e=>e.classList.remove('sel'));
+  czActive=w; w.inputs.forEach(i=>i.parentElement.classList.add('cz-active')); if(w._li)w._li.classList.add('sel');
+  let i=(typeof idx==='number')?idx:0;
+  if(focar){ for(let k=0;k<w.inputs.length;k++){ const t=(i+k)%w.inputs.length; if(!w.inputs[t].value){ i=t; break; } } }
+  const cur=w.inputs[i]; setCur(cur); if(cur&&focar)cur.focus();
+}
 function montarCruz(){
   let maxR=0,maxC=0;
   CRUZ.forEach(w=>{ const len=w.palavra.length; maxR=Math.max(maxR, w.dir==='V'?w.r+len:w.r+1); maxC=Math.max(maxC, w.dir==='H'?w.c+len:w.c+1); });
@@ -1171,14 +1187,18 @@ function montarCruz(){
     if(cels[key]){ cel.classList.add('ativa');
       if(numAt[key]){ const s=document.createElement('span'); s.className='cz-num'; s.textContent=numAt[key]; cel.appendChild(s); }
       const inp=document.createElement('input'); inp.maxLength=1; inp.inputMode='text'; inp.setAttribute('autocapitalize','characters'); inp.autocomplete='off'; inp.dataset.l=cels[key].letra;
-      inp.addEventListener('input',()=>{ inp.value=inp.value.toUpperCase().slice(0,1); });
-      inp.addEventListener('focus',()=>{ setTimeout(()=>{try{inp.select();}catch(_){}}, 0); });
+      inp.addEventListener('input',()=>{ inp.value=inp.value.toUpperCase().slice(0,1); if(inp.value&&czActive&&czActive.inputs.includes(inp)){ const i=czActive.inputs.indexOf(inp); if(i<czActive.inputs.length-1){ const nx=czActive.inputs[i+1]; setCur(nx); nx.focus(); } } });
+      inp.addEventListener('keydown',e=>{ if(e.key==='Backspace'&&!inp.value&&czActive&&czActive.inputs.includes(inp)){ const i=czActive.inputs.indexOf(inp); if(i>0){ const pv=czActive.inputs[i-1]; pv.value=''; setCur(pv); pv.focus(); e.preventDefault(); } } });
+      inp.addEventListener('focus',()=>{ if(!(czActive&&czActive.inputs.includes(inp))){ const w=inp._wH||inp._wV; selWord(w, w?w.inputs.indexOf(inp):0, false); } else { setCur(inp); } setTimeout(()=>{try{inp.select();}catch(_){}}, 0); });
       inpMap[key]=inp; cel.appendChild(inp);
     }
     g.appendChild(cel);
   }
+  CZWORDS = CRUZ.map(w=>{ const inputs=[]; for(let k=0;k<w.palavra.length;k++){ const r=w.dir==='V'?w.r+k:w.r, c=w.dir==='H'?w.c+k:w.c; inputs.push(inpMap[r+'_'+c]); } return {num:w.num,dir:w.dir,dica:w.dica,inputs}; });
+  CZWORDS.forEach(wo=>{ wo.inputs.forEach(inp=>{ if(wo.dir==='H')inp._wH=wo; else inp._wV=wo; }); });
   const H=document.getElementById('cruzH'), V=document.getElementById('cruzV'); H.innerHTML=''; V.innerHTML='';
-  CRUZ.slice().sort((a,b)=>a.num-b.num).forEach(w=>{ const li=document.createElement('li'); li.textContent=w.num+'. '+w.dica+' ('+w.palavra.length+' letras)'; (w.dir==='H'?H:V).appendChild(li); });
+  CZWORDS.slice().sort((a,b)=>a.num-b.num).forEach(wo=>{ const li=document.createElement('li'); li.textContent=wo.num+'. '+wo.dica+' ('+wo.inputs.length+' letras)'; li.onclick=()=>selWord(wo,0,true); wo._li=li; (wo.dir==='H'?H:V).appendChild(li); });
+  czActive=null;
 }
 function conferirCruz(){
   let ok=0,tot=0; document.querySelectorAll('#cruzGrid input').forEach(inp=>{ tot++; const certo=norm(inp.value)===norm(inp.dataset.l); inp.classList.toggle('ok',certo); if(certo)ok++; });
